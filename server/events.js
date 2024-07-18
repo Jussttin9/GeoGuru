@@ -1,6 +1,5 @@
 const axios = require('axios');
 const dotenv = require('dotenv');
-const getCoordinates = require('./travel');
 
 dotenv.config();
 YelpAPI = process.env.YELP_API_KEY
@@ -54,10 +53,11 @@ async function getEvents(timeInterval, budgetPerPerson, category, latitude, long
     try {
         const response = await axios.get(apiUrl, options);
         const responseData = response.data;
-        
+
         // Filter events by time interval and budget per person
         const filteredEvents = responseData.events.filter(event => {
             const isInInterval = isInTimeInterval(event.time_start, timeInterval);
+
             const isWithinBudgetResult = isWithinBudget(event.cost, budgetPerPerson);
 
             return isInInterval && isWithinBudgetResult;
@@ -71,6 +71,7 @@ async function getEvents(timeInterval, budgetPerPerson, category, latitude, long
 }
 
 // // Sample input data
+
 // const timeInterval = 'Evening'; // Example time interval
 // const budgetPerPerson = 2000; // Example budget per person
 // const category = 'food-and-drink'; // Example category
