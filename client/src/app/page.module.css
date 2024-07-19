@@ -414,7 +414,43 @@ a.logo {
   text-align: center;
   margin: auto;
   position: absolute;
-  line-height: 15vh;
+  line-height: 5vh;
+  display: flex;
+  align-items: flex-start;
+}
+
+.itineraryList {
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+  height: 90%;
+  width: 25%;
+  margin: 20px;
+}
+
+.itineraryList > strong {
+  margin: 10px;
+  font-size: 30px;
+  text-shadow: 2px 2px 2px pink; 
+}
+
+.dateCard {
+  background-color: #D9D9D9;
+  border-radius: 30px;
+  margin-top: 5px;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.info {
+  background-color: white;
+  color: black;
+  border-radius: 20px; 
+  height: 90%;
+  margin: 20px;
+  width: 70%;
 }
 
 .startContainer {

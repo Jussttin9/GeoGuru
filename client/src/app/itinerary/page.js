@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './../page.module.css';
+import styles from '../page.module.css';
 import { motion as m } from 'framer-motion';
 
 // This will be our page for the Itinerary page. Change it as you'd like!
@@ -16,7 +16,38 @@ class Event {
 }
 
 export default function Itinerary() {
-
+  return (
+    <m.div className={styles.itinerary}
+      initial={{opacity: 0, height: 0}}
+      animate={{opacity: 1, height: "100vh"}}
+      transition={{ duration: 0.75, ease: 'easeOut' }}
+      exit={{ opacity: 1 }}
+    >
+        <div className={styles.itineraryList}>
+          <strong>Itinerary</strong>
+          {/* replace with date itinerary components later */}
+          <div className={styles.dateCard}>
+            <div>date card 1</div>
+            <div>&rsaquo;</div>
+          </div>
+          <div className={styles.dateCard}>
+            <div>date card 2</div>
+            <div>&rsaquo;</div>
+          </div>
+          <div className={styles.dateCard}>
+            <div>date card 3</div>
+            <div>&rsaquo;</div>
+          </div>
+          <div className={styles.dateCard}>
+            <div>date card 4</div>
+            <div>&rsaquo;</div>
+          </div>
+        </div>
+        <div className={styles.info}>
+          body of events
+        </div>
+    </m.div>
+  );
     /*
 
     // CREATE A NEW Event OBJECT FOR EACH RETRIEVED FROM USER'S TRIP

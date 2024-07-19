@@ -10,7 +10,7 @@ export default function Resources() {
     return (
       <m.div className={styles.itinerary}
         initial={{opacity: 0, height: 0}}
-        animate={{opacity: 1, height: "75vh"}}
+        animate={{opacity: 1, height: "100vh"}}
         transition={{ duration: 0.75, ease: 'easeOut' }}
         exit={{ opacity: 1 }}
       >
