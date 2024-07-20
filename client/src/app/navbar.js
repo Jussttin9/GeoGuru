@@ -30,7 +30,7 @@ export default function Navbar() {
                 />
             </Link>
             <Link className={styles.navbuttons} href={"/about"}>ABOUT</Link>
-            <Link className={styles.navbuttons} href={"/resources"}>RESOURCES</Link>
+            <Link className={styles.navbuttons} href={"/resources"}>TRIPS</Link>
             <Link className={styles.navbuttons} href={"/itinerary"}>ITINERARY</Link>
         </div>
     )

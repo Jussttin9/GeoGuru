@@ -410,7 +410,7 @@ a.logo {
 .itinerary {
   height: 75vh;
   width: 100%;
-  background-color: #FFC7C2;
+  background-color: #FFF5F4;
   text-align: center;
   margin: auto;
   position: absolute;
@@ -451,6 +451,173 @@ a.logo {
   height: 90%;
   margin: 20px;
   width: 70%;
+}
+
+.label {
+  background-color: #FFD5D2;
+  color: white;
+  font-size: 30px;
+  text-decoration: solid 10px;
+}
+
+.leftCol {
+  color: black;
+  border-radius: 20px;
+  height: 90%;
+  width: 40%;
+  margin: 20px;
+}
+
+
+.title {
+  display: flex;
+  justify-content: center;
+}
+
+.title h3 {
+  background-color: #3DCF56;
+  width: fit-content;
+  font-size: 70px;
+  background-color: #FFD5D2;
+  margin-top: 50px;
+  border-radius: 20px;
+  color: white;
+  padding: 10px;
+}
+
+.destinations, .travelers {
+  border: 5px solid #FFD5D2;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 90px 30px 0px 30px;
+}
+
+.destinations div > select, .travelers div > input {
+  border-radius: 10px;
+  background-color: #FFF5F4;
+  color: black;
+  width: 40%;
+}
+
+.travelers div > input {
+  padding: 10px;
+}
+
+.from, .to {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+  font-size: 30px;
+}
+
+.adult, .child {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 20px 20px 10px;
+  font-size: 30px;
+}
+
+.rightCol {
+  color: black;
+  border-radius: 20px; 
+  height: 90%;
+  margin: 20px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.container > * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container { 
+  border: 5px solid #FFD5D2;
+  background-color: white;
+  height: fit-content;
+  border-radius: 20px;
+  padding-bottom: 10px;
+}
+
+.month {
+  width: 100%;
+  height: 9rem;
+  border: 5px solid white;
+  border-bottom-color: #FFD5D2;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 2rem;
+  text-align: center;
+}
+
+.monthChange {
+  font-size: 2.5rem;
+  cursor: pointer;
+  color: #FFD5D2;
+}
+
+.weekdays {
+  width: 100%;
+  height: 5rem;
+  padding: 0 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.weekdays div {
+  width: calc(44.2rem/7);
+}
+
+.week {
+  width: 100%;
+  display: flex;
+  padding: 0.2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.week div {
+  height: 5rem;
+  width: calc(44.2rem/7);
+  transition: background-color 0.2s;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.week div:hover:not(.today) {
+  background-color: #FFE3E0;
+  cursor: pointer;
+}
+
+.generate {
+  display: flex;
+  justify-content: end;
+}
+
+.generate button {
+  background-color: #FFD5D2;
+  font-size: 30px;
+  border-radius: 20px;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.prevDate, .nextDate {
+  opacity: 0.5;
+}
+
+.today {
+  background-color: #FFE3E0;
 }
 
 .startContainer {
