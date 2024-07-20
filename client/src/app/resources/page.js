@@ -330,7 +330,7 @@ export default function Resources() {
                 <option value="Ukraine">Ukraine</option>
                 <option value="United Arab Emirates">United Arab Emirates</option>
                 <option value="United Kingdom">United Kingdom</option>
-                <option value="United States">United States</option>
+                <option value="United States" selected="selected">United States</option>
                 <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
                 <option value="Uruguay">Uruguay</option>
                 <option value="Uzbekistan">Uzbekistan</option>
@@ -458,7 +458,7 @@ export default function Resources() {
                 <option value="Israel">Israel</option>
                 <option value="Italy">Italy</option>
                 <option value="Jamaica">Jamaica</option>
-                <option value="Japan">Japan</option>
+                <option value="Japan" selected="selected">Japan</option>
                 <option value="Jersey">Jersey</option>
                 <option value="Jordan">Jordan</option>
                 <option value="Kazakhstan">Kazakhstan</option>
