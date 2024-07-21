@@ -739,8 +739,14 @@ export default function Resources() {
           </div>
         </div>
         <div className={styles.generate}>
-          <div>Start Date: {startDate}</div>
-          <div>End Date: {endDate}</div>
+          <div className={styles.startDate}>
+            <p className={styles.label}>Start Date: </p>
+            <p className={styles.dateVal}>{startDate}</p>
+          </div>
+          <div className={styles.endDate}>
+            <p className={styles.label}>End Date: </p>
+            <p className={styles.dateVal}>{endDate}</p>
+          </div>
           <button>generate &rsaquo;&rsaquo;</button>
         </div>
       </div>

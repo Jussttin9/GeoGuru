@@ -626,6 +626,22 @@ a.logo {
   height: 93%;
 }
 
+.startDate, .endDate {
+  background-color: white;
+  border: 5px solid #FFD5D2;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+}
+
+.dateVal {
+  background-color: white;
+  width: 100%;
+  border-radius: 20px;
+  padding: 5px;
+}
+
 .startbg {
   flex: 1 1 auto;
   background-color: #FFF5F4;
