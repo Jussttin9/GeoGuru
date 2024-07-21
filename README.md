@@ -26,3 +26,7 @@ DB_URL=mongodb://mongodburl.example.com:portnumber
 3. In another command window, `cd` into `server` and run `yarn install` and `yarn start`
    to install all dependencies and start the server.
 4. Happy hacking!
+
+# 🎨 Figma Designs
+- [Flowchart](https://www.figma.com/board/CZ9qQpP3o2A7zrnrSiyLhZ/geoguru-whiteboard?node-id=0-1)
+- [UI Design](https://www.figma.com/design/OrN0kbMIhkf7nNyOpuWdqB/Geoguru-Designs?node-id=0-1&t=mMsqRaGpudP6Ja42-0)
