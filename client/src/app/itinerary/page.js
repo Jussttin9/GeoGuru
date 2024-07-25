@@ -16,6 +16,9 @@ class Event {
 }
 
 export default function Itinerary() {
+
+  const {start, end} = JSON.parse(window.sessionStorage.getItem('travelInfo'));
+
   return (
     <m.div className={styles.itinerary}
       initial={{opacity: 0, height: 0}}
@@ -35,11 +38,11 @@ export default function Itinerary() {
             <div>&rsaquo;</div>
           </div>
           <div className={styles.dateCard}>
-            <div>date card 3</div>
+            <div>{start}</div>
             <div>&rsaquo;</div>
           </div>
           <div className={styles.dateCard}>
-            <div>date card 4</div>
+            <div>{end}</div>
             <div>&rsaquo;</div>
           </div>
         </div>

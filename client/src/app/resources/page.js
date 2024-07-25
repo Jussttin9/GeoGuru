@@ -3,6 +3,7 @@
 import styles from './../page.module.css';
 import { motion as m } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 // returns true if date1 comes before date2
 // otherwise returns false
@@ -30,16 +31,24 @@ export default function Resources() {
   const [endDate, setEndDate] = useState("");
   const [combinedDays, setCombinedDays] = useState([]);
 
+  window.sessionStorage.setItem('travelInfo', JSON.stringify({}));
+
   const months = [
     "January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"
   ];
+
+  function handleClick() {
+    let travelInfo = {start: startDate, end: endDate};
+    window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
+  }
 
   useEffect(() => {
     if (!window.sessionStorage.getItem("startDateString")) {
       window.sessionStorage.setItem("startDateString", "");
       window.sessionStorage.setItem("startDateStatus", "false");
       window.sessionStorage.setItem("endDateStatus", "false");
+      window.sessionStorage.setItem('travelInfo', {});
     }
 
     const newLastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
@@ -169,7 +178,6 @@ export default function Resources() {
         }
       }}>{i}</div>);
     }
-
     setCombinedDays([...prevDay, ...curDays, ...nextDay]);
   }, [date]);
 
@@ -691,11 +699,11 @@ export default function Resources() {
           <label htmlFor="destinations" className={styles.label}>Travelers</label>
           <div className={styles.adult}>
             Adults
-            <input type="number"></input>
+            <input type="number" defaultValue={1} min={0}></input>
           </div>
           <div className={styles.child}>
             Children
-            <input type="number" className={styles.centered}></input>
+            <input type="number" className={styles.centered} defaultValue={1} min={0}></input>
           </div>
         </div>
       </div>
@@ -747,7 +755,7 @@ export default function Resources() {
             <p className={styles.label}>End Date: </p>
             <p className={styles.dateVal}>{endDate}</p>
           </div>
-          <button>generate &rsaquo;&rsaquo;</button>
+          <button onClick={handleClick}><Link href={'itinerary'}>generate &rsaquo;&rsaquo;</Link></button>
         </div>
       </div>
     </m.div>

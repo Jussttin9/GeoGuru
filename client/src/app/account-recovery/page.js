@@ -13,9 +13,14 @@ export default function Recovery() {
         setEmail(event.target.value)
     }
 
+    let submitbutton = undefined;
+    let submissionmsg = "";
 
-    const submitbutton = document.getElementById("sendemail");
-    const submissionmsg = document.getElementById("submsg");
+    useEffect(() => {
+      submitbutton = document.getElementById("sendemail");
+      submissionmsg = document.getElementById("submsg");
+    })
+
     const submitrequest = () => {
       if ((submitbutton != null)) {
         animate(submitbutton, { backgroundColor: "#86EF98" }, {duration: 0.5})

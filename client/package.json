@@ -12,10 +12,11 @@
     "@emotion/react": "^11.11.4",
     "@mui/x-date-pickers": "^7.6.1",
     "framer-motion": "^11.1.9",
-    "next": "13.5.4",
+    "next": "^14.2.5",
     "react": "^18",
     "react-calendar": "^5.0.0",
     "react-dom": "^18",
-    "react-fast-marquee": "^1.6.4"
+    "react-fast-marquee": "^1.6.4",
+    "react-router-dom": "^6.25.1"
   }
 }
