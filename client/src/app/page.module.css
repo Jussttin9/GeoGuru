@@ -505,11 +505,12 @@ a.logo {
   padding: 10px;
 }
 
-.from, .to {
+.to {
   display: flex;
   justify-content: space-between;
   margin: 20px;
   font-size: 30px;
+  align-items: center;
 }
 
 .adult, .child {
