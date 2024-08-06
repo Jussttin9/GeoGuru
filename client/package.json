@@ -11,6 +11,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@mui/x-date-pickers": "^7.6.1",
+    "axios": "^1.7.3",
     "framer-motion": "^11.1.9",
     "next": "^14.2.5",
     "react": "^18",

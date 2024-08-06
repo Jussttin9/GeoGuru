@@ -92,7 +92,6 @@ export default function DestinationComponent() {
         { value: 'kazakhstan', label: 'Kazakhstan' },
         { value: 'kenya', label: 'Kenya' },
         { value: 'kiribati', label: 'Kiribati' },
-        { value: 'north-korea', label: 'North Korea' },
         { value: 'south-korea', label: 'South Korea' },
         { value: 'kosovo', label: 'Kosovo' },
         { value: 'kuwait', label: 'Kuwait' },

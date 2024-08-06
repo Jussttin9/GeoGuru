@@ -636,6 +636,116 @@ a.logo {
   font-size: 30px;
 }
 
+.tripName {
+  background-color: #FFD5D2;
+  border-radius: 20px;
+  font-size: 30px;
+  padding: 20px;
+  width: fit-content;
+  margin: 20px;
+}
+
+.tripInfo {
+  background-color: #FFD5D2;
+  border-radius: 20px;
+  padding: 20px;
+  width: fit-content;
+  margin: 20px;
+}
+
+.tripEvents {
+  background-color: #FFD5D2;
+}
+
+.listEvents {
+  height: fit-content;
+  width: 100%;
+}
+
+.eventCard {
+  display: flex;
+  justify-content: space-between;
+  background-color: white;
+  align-items: center;
+  color: black;
+  width: 90%;
+  padding-right: 10px;
+  margin: 20px;
+  font-size: 40px;
+  border-radius: 10px;
+}
+
+.eventText {
+  width: 40%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkboxLabel {
+  position: relative;
+  display: inline-block;
+  width: 24px; /* Size of the checkbox */
+  height: 24px; /* Size of the checkbox */
+  background-color: #FFD5D2; /* Background color */
+  border: 2px solid #FFD5D2; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  cursor: pointer;
+  margin-right: 10px; /* Space between checkbox and label text */
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.checkbox:checked + .checkboxLabel {
+  background-color: #DA8D87; /* Background color when checked */
+  border-color: #DA8D87; /* Border color when checked */
+}
+
+/* Hover and Focus States */
+.checkboxLabel:hover {
+  background-color: #e0e0e0; /* Light background on hover */
+}
+
+.checkbox:focus + .checkboxLabel {
+  border-color: #007bff; /* Border color on focus */
+}
+
+.eventChecklist {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.none {
+  background-color: lightgray;
+  padding: 40px;
+  margin: 5px;
+  font-size: 20px;
+}
+
+.chooseEvent {
+  background-color: #FFD5D2;
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 10px;
+}
+
+.getEvent {
+  background-color: #FFD5D2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
 .dateVal {
   background-color: white;
   width: 100%;

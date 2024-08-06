@@ -37,9 +37,36 @@ async function getAttractions(city, country, radius) {
             throw new Error('Failed to fetch attractions. Server responded with status: ' + attractionsResponse.status);
         }
 
-        const filteredData = attractionsResponse.data.filter(item => item.name !== '');
+        const imgMap = {};
+        
+        const filteredData = attractionsResponse.data.filter(item => item.name && item.xid !== '');
+        const xids = attractionsResponse.data.filter(item => item.xid !== '');
+        for (const item of xids) {
+            const url = `http://api.opentripmap.com/0.1/en/places/xid/${item.xid}?apikey=${apiKey}`;
+            const imgUrl = 'https://commons.wikimedia.org/w/api.php?action=query&titles=File:People_on_the_beach_in_La_Jolla&prop=imageinfo&iiprop=url&format=json';
+            try {
+                const responseOne = await axios.get(url);
+                const placeObj = responseOne.data;
+                const imgWeb = placeObj.image;
 
-        const attractions = filteredData.map(item => item.name);
+                const responseTwo = await axios.get(imgUrl);
+                const data = responseTwo.data;
+            
+                const pages = data.query.pages;
+                const pageId = Object.keys(pages)[0]; // Get the first page ID
+                const imageInfo = pages[pageId].imageinfo[0]; // Assuming there's at least one imageinfo object
+                const imageUrl = imageInfo.url;
+                imgMap[item.xid] = imageUrl;
+            } catch (error) {
+                console.error(`Error fetching data for XID: ${item.xid}`, error);
+            }
+        }
+
+        const attractions = filteredData.map(item => ({
+            name: item.name,
+            image: (imgMap[item.xid] || 'None'),
+            xid: item.xid
+        }));
 
         return attractions;
     } catch (error) {
