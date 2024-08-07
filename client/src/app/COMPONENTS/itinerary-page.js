@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/app/page.module.css';
 import Link from 'next/link';
 import SelectedEvent from './selectedEvent';
@@ -6,6 +6,15 @@ import SelectedEvent from './selectedEvent';
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents }) {
     const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States'];
     const serializedLocations = testLocations.join('/');
+    const [selectedList, updateSelectedList] = useState([]);
+
+    const removeItem = (name) => {
+        updateSelectedList(selectedList.map(item => item && item != name));
+    }
+
+    useEffect(() => {
+        updateSelectedList(selectedEvents);
+    })
 
     return (
         <div className={styles.info}>
@@ -17,7 +26,7 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
                 <p>Adults: {adults} Children: {child}</p>
             </div>
             <div className={styles.tripEvents}>List of selected events</div>
-            {selectedEvents.map(item => (
+            {selectedList.map(item => (
                 <SelectedEvent key={item} name={item} />
             ))}
             <SelectedEvent name="Event 1"/>
