@@ -6,15 +6,12 @@ import { useState, useEffect } from 'react';
 
 /*
 TODOS: 
-    - get country and convert into capital city
     - if USA, decide which state
-    - make it so it doesnt refresh checkbox and events with every render (get rid of useEffect)
 */
 
 
-export default function EventCard({ locations }) {
+export default function EventCard({ location, setSelectedEvents }) {
     // gets a list of nearby locations with each array element formatted as [{name, xid, image}]
-    const [events, setEvents] = useState([]);
     const [items, setItems] = useState([]);
 
     const countryCapitals = new Map([
@@ -202,7 +199,7 @@ export default function EventCard({ locations }) {
         ["Ukraine", "Kyiv"],
         ["United Arab Emirates", "Abu Dhabi"],
         ["United Kingdom", "London"],
-        ["United States", "USA"],
+        ["United States", "LaJolla"],
         ["Uruguay", "Montevideo"],
         ["Uzbekistan", "Tashkent"],
         ["Vanuatu", "Port Vila"],
@@ -212,14 +209,219 @@ export default function EventCard({ locations }) {
         ["Yemen", "Sana'a"],
         ["Zambia", "Lusaka"],
         ["Zimbabwe", "Harare"]
-      ]);
-      
+    ]);
+
+    const countryCodes = new Map([
+        ["Afghanistan", "af"],
+        ["Albania", "al"],
+        ["Algeria", "dz"],
+        ["Andorra", "ad"],
+        ["Angola", "ao"],
+        ["Antigua and Barbuda", "ag"],
+        ["Argentina", "ar"],
+        ["Armenia", "am"],
+        ["Australia", "au"],
+        ["Austria", "at"],
+        ["Azerbaijan", "az"],
+        ["Bahamas", "bs"],
+        ["Bahrain", "bh"],
+        ["Bangladesh", "bd"],
+        ["Barbados", "bb"],
+        ["Belarus", "by"],
+        ["Belgium", "be"],
+        ["Belize", "bz"],
+        ["Benin", "bj"],
+        ["Bhutan", "bt"],
+        ["Bolivia", "bo"],
+        ["Bosnia and Herzegovina", "ba"],
+        ["Botswana", "bw"],
+        ["Brazil", "br"],
+        ["Brunei", "bn"],
+        ["Bulgaria", "bg"],
+        ["Burkina Faso", "bf"],
+        ["Burundi", "bi"],
+        ["Cabo Verde", "cv"],
+        ["Cambodia", "kh"],
+        ["Cameroon", "cm"],
+        ["Canada", "ca"],
+        ["Central African Republic", "cf"],
+        ["Chad", "td"],
+        ["Chile", "cl"],
+        ["China", "cn"],
+        ["Colombia", "co"],
+        ["Comoros", "km"],
+        ["Congo (Brazzaville)", "cg"],
+        ["Congo (Kinshasa)", "cd"],
+        ["Costa Rica", "cr"],
+        ["Croatia", "hr"],
+        ["Cuba", "cu"],
+        ["Cyprus", "cy"],
+        ["Czechia", "cz"],
+        ["Denmark", "dk"],
+        ["Djibouti", "dj"],
+        ["Dominica", "dm"],
+        ["Dominican Republic", "do"],
+        ["Ecuador", "ec"],
+        ["Egypt", "eg"],
+        ["El Salvador", "sv"],
+        ["Equatorial Guinea", "gq"],
+        ["Eritrea", "er"],
+        ["Estonia", "ee"],
+        ["Eswatini", "sz"],
+        ["Ethiopia", "et"],
+        ["Fiji", "fj"],
+        ["Finland", "fi"],
+        ["France", "fr"],
+        ["Gabon", "ga"],
+        ["Gambia", "gm"],
+        ["Georgia", "ge"],
+        ["Germany", "de"],
+        ["Ghana", "gh"],
+        ["Greece", "gr"],
+        ["Grenada", "gd"],
+        ["Guatemala", "gt"],
+        ["Guinea", "gn"],
+        ["Guinea-Bissau", "gw"],
+        ["Guyana", "gy"],
+        ["Haiti", "ht"],
+        ["Honduras", "hn"],
+        ["Hungary", "hu"],
+        ["Iceland", "is"],
+        ["India", "in"],
+        ["Indonesia", "id"],
+        ["Iran", "ir"],
+        ["Iraq", "iq"],
+        ["Ireland", "ie"],
+        ["Israel", "il"],
+        ["Italy", "it"],
+        ["Jamaica", "jm"],
+        ["Japan", "jp"],
+        ["Jordan", "jo"],
+        ["Kazakhstan", "kz"],
+        ["Kenya", "ke"],
+        ["Kiribati", "ki"],
+        ["South Korea", "kr"],
+        ["Kosovo", "xk"],
+        ["Kuwait", "kw"],
+        ["Kyrgyzstan", "kg"],
+        ["Laos", "la"],
+        ["Latvia", "lv"],
+        ["Lebanon", "lb"],
+        ["Lesotho", "ls"],
+        ["Liberia", "lr"],
+        ["Libya", "ly"],
+        ["Liechtenstein", "li"],
+        ["Lithuania", "lt"],
+        ["Luxembourg", "lu"],
+        ["Madagascar", "mg"],
+        ["Malawi", "mw"],
+        ["Malaysia", "my"],
+        ["Maldives", "mv"],
+        ["Mali", "ml"],
+        ["Malta", "mt"],
+        ["Marshall Islands", "mh"],
+        ["Mauritania", "mr"],
+        ["Mauritius", "mu"],
+        ["Mexico", "mx"],
+        ["Micronesia", "fm"],
+        ["Moldova", "md"],
+        ["Monaco", "mc"],
+        ["Mongolia", "mn"],
+        ["Montenegro", "me"],
+        ["Morocco", "ma"],
+        ["Mozambique", "mz"],
+        ["Myanmar", "mm"],
+        ["Namibia", "na"],
+        ["Nauru", "nr"],
+        ["Nepal", "np"],
+        ["Netherlands", "nl"],
+        ["New Zealand", "nz"],
+        ["Nicaragua", "ni"],
+        ["Niger", "ne"],
+        ["Nigeria", "ng"],
+        ["North Macedonia", "mk"],
+        ["Norway", "no"],
+        ["Oman", "om"],
+        ["Pakistan", "pk"],
+        ["Palau", "pw"],
+        ["Panama", "pa"],
+        ["Papua New Guinea", "pg"],
+        ["Paraguay", "py"],
+        ["Peru", "pe"],
+        ["Philippines", "ph"],
+        ["Poland", "pl"],
+        ["Portugal", "pt"],
+        ["Qatar", "qa"],
+        ["Romania", "ro"],
+        ["Russia", "ru"],
+        ["Rwanda", "rw"],
+        ["Saint Kitts and Nevis", "kn"],
+        ["Saint Lucia", "lc"],
+        ["Saint Vincent and the Grenadines", "vc"],
+        ["Samoa", "ws"],
+        ["San Marino", "sm"],
+        ["Sao Tome and Principe", "st"],
+        ["Saudi Arabia", "sa"],
+        ["Senegal", "sn"],
+        ["Serbia", "rs"],
+        ["Seychelles", "sc"],
+        ["Sierra Leone", "sl"],
+        ["Singapore", "sg"],
+        ["Slovakia", "sk"],
+        ["Slovenia", "si"],
+        ["Solomon Islands", "sb"],
+        ["Somalia", "so"],
+        ["South Africa", "za"],
+        ["South Sudan", "ss"],
+        ["Spain", "es"],
+        ["Sri Lanka", "lk"],
+        ["Sudan", "sd"],
+        ["Suriname", "sr"],
+        ["Sweden", "se"],
+        ["Switzerland", "ch"],
+        ["Syria", "sy"],
+        ["Taiwan", "tw"],
+        ["Tajikistan", "tj"],
+        ["Tanzania", "tz"],
+        ["Thailand", "th"],
+        ["Timor-Leste", "tl"],
+        ["Togo", "tg"],
+        ["Tonga", "to"],
+        ["Trinidad and Tobago", "tt"],
+        ["Tunisia", "tn"],
+        ["Turkey", "tr"],
+        ["Turkmenistan", "tm"],
+        ["Tuvalu", "tv"],
+        ["Uganda", "ug"],
+        ["Ukraine", "ua"],
+        ["United Arab Emirates", "ae"],
+        ["United Kingdom", "uk"],
+        ["United States", "us"],
+        ["Uruguay", "uy"],
+        ["Uzbekistan", "uz"],
+        ["Vanuatu", "vu"],
+        ["Vatican City", "va"],
+        ["Venezuela", "ve"],
+        ["Vietnam", "vn"],
+        ["Yemen", "ye"],
+        ["Zambia", "zm"],
+        ["Zimbabwe", "zw"]
+    ]);
+
+
 
     const fetchEvents = async () => {
         try {
-          const response = await axios.get(`http://localhost:4000/info/attractions?city=${countryCapitals.get('South Korea')}&country=kr&radius=10000`);
-          setEvents(response.data);
-          updateItems(response.data);
+          const response = await axios.get(`http://localhost:4000/info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`);
+          const seenEvents = new Set();
+          const uniqueEvents = [];
+          response.data.forEach(event => {
+            if(!seenEvents.has(event.name)) {
+                seenEvents.add(event.name);
+                uniqueEvents.push(event);
+            }
+          });
+          updateItems(uniqueEvents);
         } catch(error) {
           console.error('Failed to retrieve nearby events:', error);
         };
@@ -243,8 +445,13 @@ export default function EventCard({ locations }) {
         fetchEvents();
     }, []);
 
+    useEffect(() => {
+        setSelectedEvents(location, items.filter(item => item.checked).map(item => item.id));
+    }, [items]);
+
     return (
         <div className={styles.eventChecklist}>
+            <h2 className={styles.country}>{location}</h2>
             {items.map(item => (
                 <div key={item.id} className={styles.eventCard}>
                     <input
@@ -262,4 +469,4 @@ export default function EventCard({ locations }) {
             ))}
         </div>
     );
-    }
+}

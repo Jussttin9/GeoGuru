@@ -426,6 +426,7 @@ a.logo {
   height: 90%;
   width: 25%;
   margin: 20px;
+  height: 96vh;
 }
 
 .itineraryList > strong {
@@ -448,7 +449,7 @@ a.logo {
   background-color: white;
   color: black;
   border-radius: 20px; 
-  height: 90%;
+  height: fit-content;
   margin: 20px;
   width: 70%;
 }
@@ -691,28 +692,27 @@ a.logo {
 .checkboxLabel {
   position: relative;
   display: inline-block;
-  width: 24px; /* Size of the checkbox */
-  height: 24px; /* Size of the checkbox */
-  background-color: #FFD5D2; /* Background color */
-  border: 2px solid #FFD5D2; /* Border color */
-  border-radius: 4px; /* Rounded corners */
+  width: 30px;
+  height: 30px;
+  background-color: #FFD5D2;
+  border: 2px solid #FFD5D2;
+  border-radius: 4px;
   cursor: pointer;
-  margin-right: 10px; /* Space between checkbox and label text */
+  margin-right: 10px;
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .checkbox:checked + .checkboxLabel {
-  background-color: #DA8D87; /* Background color when checked */
-  border-color: #DA8D87; /* Border color when checked */
+  background-color: #DA8D87;
+  border-color: #DA8D87;
 }
 
-/* Hover and Focus States */
 .checkboxLabel:hover {
-  background-color: #e0e0e0; /* Light background on hover */
+  background-color: #e0e0e0;
 }
 
 .checkbox:focus + .checkboxLabel {
-  border-color: #007bff; /* Border color on focus */
+  border-color: white;
 }
 
 .eventChecklist {
@@ -738,12 +738,37 @@ a.logo {
 }
 
 .getEvent {
-  background-color: #FFD5D2;
-  height: 100%;
+  background-color: #FFE3E0;
+  height: fit-content;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
+}
+
+.eventsTitle {
+  width: 100%;
+  text-align: center;
+  margin: 20px;
+  font-size: 35px;
+}
+
+.selectedContainer {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #FFE3E0;
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.country {
+  background-color: #FFD5D2;
+  padding: 15px;
+  margin: 20px;
+  border-radius: 20px;
+  font-size: 40px;
 }
 
 .dateVal {

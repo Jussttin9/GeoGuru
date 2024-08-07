@@ -3,9 +3,8 @@
 import { useState, useEffect } from 'react';
 import styles from '../page.module.css';
 import { motion as m } from 'framer-motion';
-import axios from 'axios';
-import EventCard from '../COMPONENTS/event';
 import Link from 'next/link';
+import ItineraryPage from '../COMPONENTS/itinerary-page';
 
 // This will be our page for the Itinerary page. Change it as you'd like!
 
@@ -27,22 +26,24 @@ export default function Itinerary() {
   const [child, setChild] = useState('0');
   const [destination, setDestination] = useState('None');
   const [events, setEvents] = useState([]);
+  const [travel, setTravelInfo] = useState('');
 
-  const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States of America'];
+
+  // DELETE TESTS ------------------------------------------------------------
+  const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States'];
   const serializedLocations = testLocations.join('/');
 
-  const fetchEvents = async () => {
-    try {
-      const response = await axios.get('http://localhost:4000/info/attractions?city=LaJolla&country=us&radius=10000');
-      setEvents(response.data);
-    } catch(error) {
-      console.error('Failed to retrieve nearby events:', error);
-    };
-  }
+  const testJSON = {"start":"August 9, 2024","end":"August 22, 2024","adults":"2","children":"0"};
+  const testTravel = JSON.stringify(testJSON);
+  // DELETE TESTS ------------------------------------------------------------
+
 
   useEffect(() => {
     const travelInfo = JSON.parse(window.sessionStorage.getItem('travelInfo'));
     const destinationInfo = JSON.parse(window.sessionStorage.getItem('destination'));
+    const selectedEvents = JSON.parse(window.sessionStorage.getItem('events'));
+
+    setTravelInfo(JSON.stringify(travelInfo));
 
     if (travelInfo) {
       setStart(travelInfo.start || 'None');
@@ -55,52 +56,47 @@ export default function Itinerary() {
       setDestination(destinationInfo || 'None');
     }
 
-    fetchEvents();
+    if (selectedEvents) {
+      setEvents(selectedEvents || ['No events selected']);
+    }
   }, []);
 
   return (
     <m.div className={styles.itinerary}
       initial={{opacity: 0, height: 0}}
-      animate={{opacity: 1, height: "100vh"}}
+      animate={{opacity: 1, height: "fit-content"}}
       transition={{ duration: 0.75, ease: 'easeOut' }}
       exit={{ opacity: 1 }}
     >
-        <div className={styles.itineraryList}>
-          <strong>Itinerary</strong>
-          {/* replace with date itinerary components later */}
-          <div className={styles.dateCard}>
+      <div className={styles.itineraryList}>
+        <strong>Itinerary</strong>
+        {/* replace with date itinerary components later */}
+        <div className={styles.dateCard}>
             <div>date card 1</div>
             <div>&rsaquo;</div>
-          </div>
-          <div className={styles.dateCard}>
-            <div>{destination[0]}</div>
-            <div>{destination[1]}</div>
-            <div>&rsaquo;</div>
-          </div>
-          <div className={styles.dateCard}>
-            <div>{start}</div>
-            <div>&rsaquo;</div>
-          </div>
-          <div className={styles.dateCard}>
-            <div>{end}</div>
-            <div>&rsaquo;</div>
-          </div>
         </div>
-        <div className={styles.info}>
-          <div className={styles.tripName}>Trip to {destination}</div>
-          <div className={styles.tripInfo}>
-            <p>Start Date: {start}</p>
-            <p>End Date: {end}</p>
-            <p>Adults: {adults} Children: {child}</p>
-          </div>
-          <div className={styles.tripEvents}>List of selected events</div>
-          <div className={styles.listEvents}>
-            <EventCard locations='boo'/>
-            <Link href={`events/${serializedLocations}`}>
-              <button className={styles.chooseEvent}>Choose Events</button>
-            </Link>
-          </div>
+        <div className={styles.dateCard}>
+            <div>blank</div>
+            <div>blank</div>
+            <div>&rsaquo;</div>
         </div>
+        <div className={styles.dateCard}>
+            <div>blank</div>
+            <div>&rsaquo;</div>
+        </div>
+        <div className={styles.dateCard}>
+            <div>blank</div>
+            <div>&rsaquo;</div>
+        </div>
+      </div>
+      <ItineraryPage
+        start={start}
+        end={end}
+        adults={adults}
+        child={child}
+        destination={destination}
+        selectedEvents={events}
+      />
     </m.div>
   );
 }
