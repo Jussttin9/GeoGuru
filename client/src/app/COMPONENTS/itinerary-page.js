@@ -5,33 +5,37 @@ import SelectedEvent from './selectedEvent';
 
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents }) {
     const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States'];
-    const serializedLocations = testLocations.join('/');
+    const serializedLocations = destination == 'None' ? testLocations.join('/') : destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
 
     const removeItem = (name) => {
-        updateSelectedList(selectedList.map(item => item && item != name));
+        updateSelectedList(selectedList.filter(item => item !== name));
+    }
+
+    const renderSelectedEvents = () => {
+        return selectedList.map(item => (
+            <SelectedEvent key={item} name={item} removeEvent={removeItem}/>
+        ))
     }
 
     useEffect(() => {
-        updateSelectedList(selectedEvents);
-    })
+        updateSelectedList(selectedEvents)
+    }, [selectedEvents])
+
+    useEffect
 
     return (
         <div className={styles.info}>
-            {/* <div className={styles.tripName}>Trip to {destination}</div> */}
-            <div className={styles.tripName}>Trip to {testLocations.join(', ')}</div>
+            <div className={styles.tripName}>Trip to {destination == 'None' ? testLocations.join(', ') : destination.join(', ')}</div>
+            {/* <div className={styles.tripName}>Trip to {testLocations.join(', ')}</div> */}
             <div className={styles.tripInfo}>
                 <p>Start Date: {start}</p>
                 <p>End Date: {end}</p>
                 <p>Adults: {adults} Children: {child}</p>
             </div>
             <div className={styles.tripEvents}>List of selected events</div>
-            {selectedList.map(item => (
-                <SelectedEvent key={item} name={item} />
-            ))}
-            <SelectedEvent name="Event 1"/>
-            <SelectedEvent name="Event 2"/>
-            <SelectedEvent name="Event 3"/>
+            {selectedList}
+            {renderSelectedEvents()}
             <div className={styles.listEvents}>
                 <Link href={`/events/${serializedLocations}`}>
                     <button className={styles.chooseEvent}>Choose Events</button>

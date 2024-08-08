@@ -702,6 +702,15 @@ a.logo {
   transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
+.removeEventButton {
+  height: 40px;
+  width: 40px;
+  background-color: #FFD5D2;
+  border: 2px solid rgb(155, 155, 155);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
 .checkbox:checked + .checkboxLabel {
   background-color: #DA8D87;
   border-color: #DA8D87;
@@ -759,7 +768,7 @@ a.logo {
   justify-content: space-between;
   padding: 20px;
   background-color: #FFE3E0;
-  border: 2px solid black;
+  border: 2px solid rgb(155, 155, 155);
   border-radius: 5px;
 }
 
