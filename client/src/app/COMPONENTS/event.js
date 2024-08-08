@@ -412,7 +412,7 @@ export default function EventCard({ location, setSelectedEvents }) {
 
     const fetchEvents = async () => {
         try {
-          const response = await axios.get(`${process.env.REACT_APP_DEPLOY_URL}info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`);
+          const response = await axios.get(`${process.env.REACT_APP_DEPLOY_URL}/info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`);
           const seenEvents = new Set();
           const uniqueEvents = [];
           response.data.forEach(event => {
