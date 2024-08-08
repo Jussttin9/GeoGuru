@@ -12,6 +12,8 @@ const tripRouter = require('./routes/trip');
 
 const app = express();
 
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 dotenv.config();
 app.use(cors());
 
