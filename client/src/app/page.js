@@ -4,5 +4,5 @@ import Home from './home.js'
 import Itinerary from './itinerary/page'
 
 export default function Page() {
-  return <Home />
+  return <Itinerary />
 }

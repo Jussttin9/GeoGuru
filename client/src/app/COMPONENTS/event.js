@@ -408,24 +408,47 @@ export default function EventCard({ location, setSelectedEvents }) {
         ["Zimbabwe", "zw"]
     ]);
 
+    const url = `${process.env.NEXT_PUBLIC_DEPLOY_URL}/info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`;
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-
-    const fetchEvents = async () => {
+    const fetchRetry = async (url, retries = 3, delayMS = 1000) => {
         try {
-          const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`);
-          const seenEvents = new Set();
-          const uniqueEvents = [];
-          response.data.forEach(event => {
-            if(!seenEvents.has(event.name)) {
-                seenEvents.add(event.name);
-                uniqueEvents.push(event);
+            const response = await axios.get(url);
+            const seenEvents = new Set();
+            const uniqueEvents = [];
+            response.data.forEach(event => {
+              if(!seenEvents.has(event.name)) {
+                  seenEvents.add(event.name);
+                  uniqueEvents.push(event);
+              }
+            });
+            updateItems(uniqueEvents);
+        } catch (error) {
+            if (retries > 0 && error.response && error.response.status === 500) {
+                await delay(delayMS);
+                fetchRetry(url, retries - 1, delayMS * 2);
+            } else {
+                console.error('Failed to retrieve nearby events:', error);
             }
-          });
-          updateItems(uniqueEvents);
-        } catch(error) {
-          console.error('Failed to retrieve nearby events:', error);
-        };
+        }
     }
+
+    // const fetchEvents = async () => {
+    //     try {
+    //       const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`);
+    //       const seenEvents = new Set();
+    //       const uniqueEvents = [];
+    //       response.data.forEach(event => {
+    //         if(!seenEvents.has(event.name)) {
+    //             seenEvents.add(event.name);
+    //             uniqueEvents.push(event);
+    //         }
+    //       });
+    //       updateItems(uniqueEvents);
+    //     } catch(error) {
+    //       console.error('Failed to retrieve nearby events:', error);
+    //     };
+    // }
 
     function updateItems(eventList) {
         setItems(eventList.map(item => ({
@@ -442,7 +465,7 @@ export default function EventCard({ location, setSelectedEvents }) {
     };
 
     useEffect(() => {
-        fetchEvents();
+        fetchRetry(url);
     }, []);
 
     useEffect(() => {
