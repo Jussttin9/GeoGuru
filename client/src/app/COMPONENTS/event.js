@@ -452,7 +452,6 @@ export default function EventCard({ location, setSelectedEvents }) {
     return (
         <div className={styles.eventChecklist}>
             <h2 className={styles.country}>{location}</h2>
-            {process.env.NEXT_PUBLIC_DEPLOY_URL}
             {items.map(item => (
                 <div key={item.id} className={styles.eventCard}>
                     <input
