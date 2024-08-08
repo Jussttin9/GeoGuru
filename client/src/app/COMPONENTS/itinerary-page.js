@@ -4,7 +4,7 @@ import Link from 'next/link';
 import SelectedEvent from './selectedEvent';
 
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents }) {
-    const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States'];
+    const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States', 'United Kingdom'];
     const serializedLocations = destination == 'None' ? testLocations.join('/') : destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
 

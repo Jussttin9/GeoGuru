@@ -464,6 +464,18 @@ export default function EventCard({ location, setSelectedEvents }) {
         ));
     };
 
+    const handleNoEventsFound = () => {
+        if (items.length == 0) {
+            return (
+                <div className={styles.eventCard}>
+                    <div className={styles.eventText}>
+                        No Events Found
+                     </div>
+                </div>
+            )
+        }
+    }
+
     useEffect(() => {
         fetchRetry(url);
     }, []);
@@ -490,6 +502,7 @@ export default function EventCard({ location, setSelectedEvents }) {
                     </div>
                 </div>
             ))}
+            {handleNoEventsFound()}
         </div>
     );
 }
