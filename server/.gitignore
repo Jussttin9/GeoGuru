@@ -62,3 +62,6 @@ typings/
 # next.js build output
 .next
 .vercel
+
+# firebase credentials
+auth/geoguru-23ec8-firebase-adminsdk-pzu4n-ce7fdccc01.json
