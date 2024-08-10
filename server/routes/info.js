@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getLocationData, getAttractions } = require('../travel');
+const { getAttractions } = require('../travel');
 
 // Route to get attractions
 // example: http://localhost:4000/info/attractions?city=Seoul&country=kr&radius=10000

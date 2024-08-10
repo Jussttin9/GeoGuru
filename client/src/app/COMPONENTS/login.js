@@ -8,6 +8,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
+import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 export default function LoginInfo() {
     
     // here is the login modal, which serves as a popup after clicking on the
@@ -31,6 +34,8 @@ export default function LoginInfo() {
         setPass(event.target.value)
     }
 
+    const [error, setError] = useState(null);
+
     // useEffect to remedy toggleCheckbox bug
     // { checking on an empty password field will invert visibility }
     useEffect(() => {
@@ -50,10 +55,22 @@ export default function LoginInfo() {
 
     // this function when called will eventually request the given
     // email and password data from a matching userID in MongoDB.
-    const clickLogin = () => {
-      console.log("Email: ", useEmail, " Password: ", usePass);
+    const clickLogin = async () => {
+      setError(null);
       if ((useEmail.length > 0) && (usePass.length > 0)) {
-        routeToStart();
+        try {
+          const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
+          const userID = await userCredential.user.getIdToken();
+          routeToStart();
+        } catch (error) {
+          if(error.code === 'auth/invalid-email') {
+            setError('Invalid Email');
+          } else {
+            setError('Email or password is incorrect');
+          }
+        }
+      } else {
+        setError('Please fill out all fields');
       }
     }
   
@@ -127,6 +144,7 @@ export default function LoginInfo() {
           <h3></h3>
           <br/>
           <div className={styles.signin}>
+          {error && <h4>{error}</h4>}
             <button onClick={clickLogin}>Sign in</button>
           </div>
         </div>

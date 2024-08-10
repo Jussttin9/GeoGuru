@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-const serviceAccount = require('./geoguru-8d3c8-firebase-adminsdk-rwi9f-8ba21f3358.json');
+const serviceAccount = require('./geoguru-23ec8-firebase-adminsdk-pzu4n-ce7fdccc01.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

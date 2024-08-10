@@ -2,9 +2,12 @@
 
 import styles from './../page.module.css';
 import Image from 'next/image';
+import Marquee from 'react-fast-marquee';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion as m } from 'framer-motion';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase';
 
 export default function Register() {
   const [useEmail, setEmail] = useState("");
@@ -22,33 +25,30 @@ export default function Register() {
     setUsername(event.target.value);
   };
 
-  const clickLogin = async () => {
-    console.log("Email: ", useEmail, " Password: ", usePass);
+  const [error, setError] = useState(null);
 
+  const clickLogin = async () => {
+    setError(null);
     if ((useEmail.length > 0) && (usePass.length > 0) && (username.length > 0)) {
       try {
-        const response = await fetch('http://localhost:4000/user/register', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email: useEmail, password: usePass, username }),
-        });
-          if (response.ok) {
-            routeToStart();
-          } else {
-              const data = await response.json();
-              console.error("Registration error: ", data.message);
-          }
-        } catch (err) {
-          console.error("Couldn't login: ", err);
+        const userCredential = await createUserWithEmailAndPassword(auth, useEmail, usePass);
+        const userID = await userCredential.user.getIdToken();
+        routeToHome();
+      } catch (error) {
+        if (error.code === 'auth/email-already-in-use') {
+          setError('Email already in use');
+        } else {
+          setError("Couldn't use credentials to register");
         }
       }
+    } else {
+      setError('Please fill out all fields.')
     }
+  }
 
   const router = useRouter();
-  function routeToStart() {
-    router.replace("/start");
+  function routeToHome() {
+    router.replace("/");
   }
 
   useEffect(() => {
@@ -81,11 +81,24 @@ export default function Register() {
   return (
     <>
       <m.div className={styles.registerPanel}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{opacity: 0, height: "0%" }}
+        animate={{opacity: 1, height: "100vh" }}
         transition={{ duration: 0.75, ease: 'easeOut' }}
         exit={{ opacity: 1 }}
       >
+        <div className={styles.bannercontainer}>
+          <div className={styles.banner}>
+            <Marquee>
+              <Image
+                  src="/TEMPgeogurubanner.svg"
+                  alt="Geoguru Full Banner [TEMPORARY]"
+                  className={styles.logoimg}
+                  width={1054}
+                  height={725}
+                  priority
+              />
+            </Marquee>
+          </div>
         <m.div className={styles.registerContainer}
           initial={{ y: 145 }}
           animate={{ y: 95 }}
@@ -149,8 +162,10 @@ export default function Register() {
           </div>
           <div className={styles.signupButton}>
             <button onClick={clickLogin}>Sign up</button>
+            {error && <p>{error}</p>}
           </div>
         </m.div>
+        </div>
       </m.div>
     </>
   );

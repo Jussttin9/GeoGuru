@@ -115,12 +115,16 @@ a.logo {
   position: absolute;
   left: 50%;  
   width: 460px;
-  height: 450px;
+  height: 475px;
   transform: translate(-50%, -50%);
   background: rgb(255, 255, 255);
   border-radius: 25px;
   line-height: 27px;
   padding-top: 20px;
+}
+
+.welcomeTitle, .signup {
+  color: black;
 }
 
 .signup {
@@ -197,6 +201,11 @@ a.logo {
   font-size: 18px;
 }
 
+.signin h4 {
+  margin: 5px;
+  color: black;
+}
+
 .signupButton button {
   background-color: black;
   color: black;
@@ -218,6 +227,11 @@ a.logo {
   background-color: aliceblue;
   color: black;
   font-size: 18px;
+}
+
+.signupButton p {
+  margin-top: 10px;
+  color: black;
 }
 
 .logininfo {
@@ -303,7 +317,7 @@ a.logo {
 }
 
 .registerPanel {
-  background-color: white;
+  background-color: #FFC7C2;
   text-align: center;
 }
 
@@ -323,7 +337,7 @@ a.logo {
 .registerContainer {
   background-color: white;
   width: 460px;
-  height: 420px;
+  height: 490px;
   border-radius: 25px;
   border: solid;
   border-color: rgb(176, 176, 176);
@@ -336,6 +350,7 @@ a.logo {
 .registerOvertext {
   padding-left: 22px;
   padding-right: 22px;
+  color: black;
 }
 
 .rrContainer h3 {

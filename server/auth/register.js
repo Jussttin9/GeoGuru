@@ -16,6 +16,7 @@ const registerUser = async (email, password, username) => {
             password: password
         });
         const newUser = new User({
+            _id: userRecord.uid,
             firebaseUID: userRecord.uid,
             email: email,
             username: username
@@ -23,6 +24,7 @@ const registerUser = async (email, password, username) => {
         await newUser.save();
 
         console.log('Successfully created new user:', userRecord.uid);
+
         return userRecord.uid;
     } catch (error) {
         console.error('Error creating new user:', error);

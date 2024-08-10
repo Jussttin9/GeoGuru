@@ -28,7 +28,7 @@ export default function Home() {
     return(
         <m.div className={styles.front}
           initial={{opacity: 0, height: "0%" }}
-          animate={{opacity: 1, height: "75vh" }}
+          animate={{opacity: 1, height: "100vh" }}
           transition={{ duration: 0.75, ease: 'easeOut' }}
           exit={{ opacity: 1 }}
         >
@@ -40,7 +40,7 @@ export default function Home() {
                     alt="Geoguru Full Banner [TEMPORARY]"
                     className={styles.logoimg}
                     width={1054}
-                    height={525}
+                    height={725}
                     priority
                 />
               </Marquee>
@@ -71,14 +71,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* the divs following can contain testimonials, extra info, etc. */}
-          <div>
-            <h1>
-              
-            </h1>
-          </div>
-
-
           {/* here is where the loginModal from /COMPONENTS/login.js will 
           popup if useLoginModal is set to true. framer-motion will slide the
           modal into view, and then use the LoginInfo component for the user
@@ -106,7 +98,7 @@ export default function Home() {
                       priority
                     />
                     <br/>
-                    <h1>Welcome back!</h1>
+                    <h1 className={styles.welcomeTitle}>Welcome back!</h1>
                     <h2>Please enter your sign in details.</h2>
                     <br/>
                     <LoginInfo/>

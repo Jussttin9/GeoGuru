@@ -7,7 +7,6 @@ const { connectToDatabase } = require('../database_schema/database');
 const getUser = async (req, res) => {
     try {
         const userId = req.params.id;
-        console.log(userId);
         // Find the user by User ID and populates Trips
         const user = await User.findOne({ firebaseUID: userId }).populate('trips');
 
@@ -25,7 +24,6 @@ const getUser = async (req, res) => {
 const deleteUser = async (userID) => {
     try {
         await connectToDatabase();
-
         const user = await User.findById(userID);
         if (!user) {
             throw new Error('User not found in MongoDB');
