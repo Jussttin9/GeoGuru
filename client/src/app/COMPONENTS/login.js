@@ -1,6 +1,7 @@
 'use client';
 
 import styles from './../page.module.css';
+import axios from 'axios';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -60,13 +61,14 @@ export default function LoginInfo() {
       if ((useEmail.length > 0) && (usePass.length > 0)) {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
-          const userID = await userCredential.user.getIdToken();
-          routeToStart();
+          const userID = await userCredential.user.uid;
+          routeToStart(userID);
         } catch (error) {
           if(error.code === 'auth/invalid-email') {
             setError('Invalid Email');
           } else {
-            setError('Email or password is incorrect');
+            // setError('Email or password is incorrect');
+            setError(error.message)
           }
         }
       } else {
@@ -75,8 +77,8 @@ export default function LoginInfo() {
     }
   
     const router = useRouter();
-    function routeToStart() {
-      router.replace("/start");
+    function routeToStart(response) {
+      router.push(`/start/${response}`);
     }
 
     function toggleCheckbox() {

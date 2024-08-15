@@ -1,6 +1,8 @@
+'use client'
 import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 // Navbar() is the navbar of our page. Because of how it is returned in
 // layout.js, it will always remain at the top of our page before { children }.
@@ -17,6 +19,23 @@ import Link from 'next/link';
 // send them to, or an Image. In the first link I placed the geoguru Logo image
 // to represent the homepage.
 export default function Navbar() {
+    const pathname = usePathname();
+    if (pathname === '/' || pathname === '/register') {
+        return (
+            <div className={styles.navbar}>
+                <Link className={styles.logo} href={"/"}>
+                    <Image
+                        src="/geogurulogo.svg"
+                        alt="Geoguru Logo"
+                        className={styles.logoimg}
+                        width={25}
+                        height={36}
+                        priority
+                    />
+                </Link>
+            </div>
+        );
+    }
     return (
         <div className={styles.navbar}>
             <Link className={styles.logo} href={"/"}>

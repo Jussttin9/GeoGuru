@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './../page.module.css';
+import styles from '../../page.module.css';
 import { motion as m } from 'framer-motion';
 import { animate } from 'framer-motion';
 
@@ -10,14 +10,18 @@ import { useState, useEffect } from 'react';
 
 import { Calendar } from 'react-calendar';
 
-import './../Calendar.css';
+import '@/app/Calendar.css';
 
 // This is the Start page. Our goal is to make this a page that you get
 // redirected to after clicking on the start button on the homepage *if*
 // the user is logged in.
 
 
-export default function Start() {
+export default function Start({ params }) {
+
+  // gets their user id
+  const uid = params.uid[0];
+  
     // USE THE FOLLOWING FOR DESTINATION(S) IN POSTS!
     const [valuesArray, setValuesArray] = useState([]);
 

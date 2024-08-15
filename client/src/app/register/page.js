@@ -3,6 +3,7 @@
 import styles from './../page.module.css';
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion as m } from 'framer-motion';
@@ -32,7 +33,14 @@ export default function Register() {
     if ((useEmail.length > 0) && (usePass.length > 0) && (username.length > 0)) {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, useEmail, usePass);
-        const userID = await userCredential.user.getIdToken();
+        const userID = await userCredential.user.uid;
+        // send a POST request to create a new User to store in mongoDB
+        console.log(userID);
+        await axios.post(`${process.env.NEXT_PUBLIC_LOCALHOST_URL}/user/register`, {
+          email: useEmail,
+          username: username,
+          id: userID
+        });
         routeToHome();
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
