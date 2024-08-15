@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('./userSchema');
 const Trip = require('./tripSchema');
-const Entry = require('./entrySchema');
 
 const connectToDatabase = async () => {
     try {
@@ -12,4 +11,4 @@ const connectToDatabase = async () => {
     }
 };
 
-module.exports = { connectToDatabase, User, Trip, Entry };
+module.exports = { connectToDatabase, User, Trip };

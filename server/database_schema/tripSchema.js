@@ -2,18 +2,14 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const TripSchema = new Schema({
-    startDate: { type: Date, default: Date.now },
-    endDate: { type: Date, default: Date.now },
+    startDate: String,
+    endDate: String,
     tripID: Number,
-    userID: { type: Schema.Types.ObjectId, ref: 'User' },
-    budget: Number,
-    destination: String,
+    adults: Number,
+    children: Number,
+    destination: [String],
     itinerary: [{
         title: String,
-        location: String,
-        cost: Number,
-        description: String,
-        date: Date
     }]
 });
 

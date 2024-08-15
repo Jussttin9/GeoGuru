@@ -1,14 +1,30 @@
 // controllers/userController.js
 const User = require('../database_schema/userSchema');
-
-const firebase = require('../auth/firebase');
 const { connectToDatabase } = require('../database_schema/database');
+
+const registerUser = async (email, username, id) => {
+    try {
+        await connectToDatabase();
+
+        const newUser = new User({
+            _id: id,
+            username: username,
+            email: email,
+            trips: []
+        });
+
+        await newUser.save();
+    } catch (error) {
+        console.error('Error creating new user:', error);
+        throw error;
+    }
+}
 
 const getUser = async (req, res) => {
     try {
         const userId = req.params.id;
         // Find the user by User ID and populates Trips
-        const user = await User.findOne({ firebaseUID: userId }).populate('trips');
+        const user = await User.findById(userId).populate('trips');
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
@@ -29,17 +45,6 @@ const deleteUser = async (userID) => {
             throw new Error('User not found in MongoDB');
         }
 
-        // Attempt to delete the user from Firebase
-        try {
-            await firebase.auth().deleteUser(user.firebaseUID);
-        } catch (error) {
-            if (error.code === 'auth/user-not-found') {
-                console.log('User not found in Firebase, proceeding with MongoDB deletion');
-            } else {
-                throw error;
-            }
-        }
-
         // Delete the user from MongoDB
         await User.findByIdAndDelete(userID);
 
@@ -50,4 +55,4 @@ const deleteUser = async (userID) => {
     }
 };
 
-module.exports = { getUser, deleteUser };
+module.exports = { registerUser, getUser, deleteUser };

@@ -1,10 +1,11 @@
 'use client';
 
-import styles from './../page.module.css';
+import styles from '../../page.module.css';
 import { motion as m } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import DestinationComponent from '../COMPONENTS/destination';
+import DestinationComponent from '../../COMPONENTS/destination';
+import axios from 'axios';
 
 // returns true if date1 comes before date2
 // otherwise returns false
@@ -26,22 +27,45 @@ function getNewDates(date1, date2) {
   return newDate1 < newDate2;
 }
 
-export default function Resources() {
+// USER SCHEMA:
+// _id: String,
+// username: String,
+// email: String,
+// trips: [{
+//     type: Schema.Types.ObjectId,
+//     ref: 'Trip'
+// }]
+
+// TRIP SCHEMA:
+// startDate: String,
+// endDate: String,
+// adults: Number,
+// children: Number,
+// destination: [String],
+// itinerary: [{
+//     title: String,
+// }]
+
+export default function TripPlanner({ params }) {
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [combinedDays, setCombinedDays] = useState([]);
   const [numAdults, setNumAdults] = useState(1);
   const [numChildren, setNumChildren] = useState(1);
+  
+  const uid = params.uid[0];
 
   const months = [
     "January", "February", "March", "April", "May", "June", "July",
     "August", "September", "October", "November", "December"
   ];
 
-  function handleClick() {
+  async function handleClick() {
     let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
     window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
+
+    response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/register`)
   }
 
   const handleAdultNum = (e) => {

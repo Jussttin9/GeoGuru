@@ -35,8 +35,7 @@ export default function Register() {
         const userCredential = await createUserWithEmailAndPassword(auth, useEmail, usePass);
         const userID = await userCredential.user.uid;
         // send a POST request to create a new User to store in mongoDB
-        console.log(userID);
-        await axios.post(`${process.env.NEXT_PUBLIC_LOCALHOST_URL}/user/register`, {
+        await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/register`, {
           email: useEmail,
           username: username,
           id: userID

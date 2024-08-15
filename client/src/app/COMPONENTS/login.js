@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useUser } from './userContext';
 
 export default function LoginInfo() {
     
@@ -36,6 +37,7 @@ export default function LoginInfo() {
     }
 
     const [error, setError] = useState(null);
+    const { setUid } = useUser();
 
     // useEffect to remedy toggleCheckbox bug
     // { checking on an empty password field will invert visibility }
@@ -62,6 +64,7 @@ export default function LoginInfo() {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
           const userID = await userCredential.user.uid;
+          setUid(userID);
           routeToStart(userID);
         } catch (error) {
           if(error.code === 'auth/invalid-email') {

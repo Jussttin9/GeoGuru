@@ -6,7 +6,7 @@ const User = require('../database_schema/userSchema');
 // Create a new trip and add it to a user's list
 const addTrip = async (req, res) => {
     try {
-        const { userID, startDate, endDate, tripID, budget, destination, itinerary } = req.body;
+        const { userID, startDate, endDate, tripID, destination, itinerary } = req.body;
 
         // Find user by user ID
         const user = await User.findById(userID);
@@ -19,7 +19,6 @@ const addTrip = async (req, res) => {
             endDate,
             tripID,
             userID: user._id,
-            budget,
             destination,
             itinerary
         });
@@ -38,7 +37,7 @@ const addTrip = async (req, res) => {
 
 // Update a trip from a user's list
 const updateTrip = async (req, res) => {
-    const { userID, tripID, startDate, endDate, newtripID, budget, destination, itinerary } = req.body;
+    const { userID, tripID, startDate, endDate, newtripID, destination, itinerary } = req.body;
 
     try {
         
@@ -55,7 +54,6 @@ const updateTrip = async (req, res) => {
                     startDate: startDate || undefined,
                     endDate: endDate || undefined,
                     tripID: newtripID || undefined,
-                    budget: budget || undefined,
                     destination: destination || undefined,
                     itinerary: itinerary || undefined
                 }

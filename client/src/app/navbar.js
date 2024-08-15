@@ -3,6 +3,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useUser } from './COMPONENTS/userContext';
 
 // Navbar() is the navbar of our page. Because of how it is returned in
 // layout.js, it will always remain at the top of our page before { children }.
@@ -20,6 +21,7 @@ import { usePathname } from 'next/navigation';
 // to represent the homepage.
 export default function Navbar() {
     const pathname = usePathname();
+    const { uid } = useUser();
     if (pathname === '/' || pathname === '/register') {
         return (
             <div className={styles.navbar}>
@@ -48,9 +50,8 @@ export default function Navbar() {
                     priority
                 />
             </Link>
-            <Link className={styles.navbuttons} href={"/about"}>ABOUT</Link>
-            <Link className={styles.navbuttons} href={"/resources"}>TRIPS</Link>
-            <Link className={styles.navbuttons} href={"/itinerary"}>ITINERARY</Link>
+            <Link className={styles.navbuttons} href={`/trips/${uid}`}>TRIPS</Link>
+            <Link className={styles.navbuttons} href={`/itinerary/${uid}`}>ITINERARY</Link>
         </div>
     )
 }

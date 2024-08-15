@@ -1,24 +1,40 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import styles from '../page.module.css';
+import styles from '../../page.module.css';
 import { motion as m } from 'framer-motion';
-import Link from 'next/link';
-import ItineraryPage from '../COMPONENTS/itinerary-page';
+import ItineraryPage from '../../COMPONENTS/itinerary-page';
 
 // This will be our page for the Itinerary page. Change it as you'd like!
 
+// USER SCHEMA:
+// _id: String,
+// username: String,
+// email: String,
+// trips: [{
+//     type: Schema.Types.ObjectId,
+//     ref: 'Trip'
+// }]
+
+// TRIP SCHEMA:
+// startDate: String,
+// endDate: String,
+// adults: Number,
+// children: Number,
+// destination: [String],
+// itinerary: [{
+//     title: String,
+// }]
+
 class Event {
-  constructor(title, location, cost, description, date) {
+  constructor(title, location, date) {
     this.title = title;
     this.location = location;
-    this.cost = cost;
-    this.description = description
     this.date = date;
   }
 }
 
-export default function Itinerary() {
+export default function Itinerary({ params }) {
 
   const [start, setStart] = useState('None');
   const [end, setEnd] = useState('None');
@@ -27,6 +43,8 @@ export default function Itinerary() {
   const [destination, setDestination] = useState('None');
   const [events, setEvents] = useState([]);
   const [travel, setTravelInfo] = useState('');
+
+  const uid = params.uid[0]
 
 
   // DELETE TESTS ------------------------------------------------------------

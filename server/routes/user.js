@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getUser, deleteUser } = require('../controllers/userController');
-const registerUser = require('../auth/register');
-const loginUser = require('../auth/login');
+const { registerUser, getUser, deleteUser } = require('../controllers/userController');
 
 // Route to get a user's information
 // Example:
@@ -13,30 +11,15 @@ router.get('/get-info/:id', getUser);
 // Example:
     // const response = await axios.post('http://localhost:4000/register', {
     //     email: 'user@example.com',
-    //     password: 'securepassword',
-    //     username: 'username123'
+    //     username: 'username123',
+    //     id: 'asidojgruowhjfoiw'
     // });
 router.post('/register', async (req, res) => {
-    const { email, password, username } = req.body;
+    const { email, username, id } = req.body;
 
     try {
-        const userID = await registerUser(email, password, username);
+        const userID = await registerUser(email, username, id);
         res.status(201).json({ userID, message: 'User registered successfully' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Route to login a user
-// YOU LOGIN ON CLIENT SIDE NOT SERVER SIDE 
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-
-    try {
-        console.log(email);
-        console.log(password);
-        const userID = await loginUser(email, password);
-        res.status(200).json({ userID, message: 'User logged in successfully' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

@@ -3,7 +3,6 @@ const { Schema } = mongoose;
 
 const UserSchema = new Schema({
     _id: String,
-    firebaseUID: String,
     username: String,
     email: String,
     trips: [{

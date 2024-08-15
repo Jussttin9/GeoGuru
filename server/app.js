@@ -7,7 +7,6 @@ const { connectToDatabase } = require('./database_schema/database');
 
 const userRouter = require('./routes/user');
 const infoRouter = require('./routes/info');
-const journalRouter = require('./routes/journal');
 const tripRouter = require('./routes/trip');
 
 const app = express();
@@ -27,7 +26,6 @@ app.use(cors());
 // Route handlers
 app.use('/user', userRouter);
 app.use('/info', infoRouter);
-app.use('/journal', journalRouter);
 app.use('/trip', tripRouter);
 
 connectToDatabase();
