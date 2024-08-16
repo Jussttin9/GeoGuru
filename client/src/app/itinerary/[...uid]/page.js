@@ -96,10 +96,10 @@ export default function Itinerary({ params }) {
       <div className={styles.itineraryList}>
         <strong>Itinerary</strong>
         {trips.map((trip, index) => (
-          <div key={index} className={styles.dateCard}>
+          <button key={index} className={styles.dateCard}>
             <div>Trip {index+1}</div>
             <div>&rsaquo;</div>
-          </div>
+          </button>
         ))}
       </div>
       <ItineraryPage
