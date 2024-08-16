@@ -81,7 +81,7 @@ export default function LoginInfo() {
   
     const router = useRouter();
     function routeToStart(response) {
-      router.push(`/start/${response}`);
+      router.push(`/itinerary/${response}`);
     }
 
     function toggleCheckbox() {
