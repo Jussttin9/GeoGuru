@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 export default function Events({ params }) {
     const [selectedEvents, setSelectedEvents] = useState(new Map())
     const [eventValues, setEventValues] = useState([])
+    const [loading, setLoading] = useState(false)
 
     const locationArr = JSON.stringify(params.location);
     const locations = JSON.parse(decodeURI(locationArr));
@@ -17,6 +18,7 @@ export default function Events({ params }) {
 
     const handleClick = async (e) => {
         e.preventDefault();
+        setLoading(true);
         // put in all selected events into the trip's itinerary array
         try {
             const promises = eventValues.map((item) => placeEvents(item));
@@ -24,6 +26,8 @@ export default function Events({ params }) {
             window.location.href = `/itinerary/${uid}`;
         } catch (error) {
             console.error("Error placing events:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -72,7 +76,7 @@ export default function Events({ params }) {
                 ))}
             </div>
             {displaySelectedEvents()}
-            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent} onClick={handleClick}>Select Events</button></Link>
+            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent} onClick={handleClick}>{loading ? 'Processing...' : 'Select Events'}</button></Link>
         </div>
     );
 }
