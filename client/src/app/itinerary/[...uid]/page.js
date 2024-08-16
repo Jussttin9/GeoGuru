@@ -59,7 +59,8 @@ export default function Itinerary({ params }) {
   const loadTrips = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/get-info/${uid}`);
     const user = response.data;
-    setTrips(user.trips.length);
+    setTrips(user.trips);
+    console.log(user.trips)
   }
 
   useEffect(() => {
@@ -94,7 +95,7 @@ export default function Itinerary({ params }) {
     >
       <div className={styles.itineraryList}>
         <strong>Itinerary</strong>
-        {trips.map((trips, index) => {
+        {trips.map((trip, index) => {
           <div key={index} className={styles.dateCard}>
             <div>Trip {index+1}</div>
             <div>&rsaquo;</div>
