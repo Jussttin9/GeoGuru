@@ -21,7 +21,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Enable CORS for all routes
-app.use(cors());
+const corsOptions = {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+};
+  
+app.use(cors(corsOptions));
+  
 
 // Route handlers
 app.use('/user', userRouter);

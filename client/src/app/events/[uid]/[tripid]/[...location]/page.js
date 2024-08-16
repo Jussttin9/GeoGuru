@@ -2,7 +2,6 @@
 
 import EventCard from "@/app/COMPONENTS/event";
 import styles from '@/app/page.module.css';
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -40,9 +39,9 @@ export default function Events({ params }) {
     };
 
     const placeEvents = async (name) => {
-        console.log(name);
         try {
             const inItinerary = itinerary.some(eventItem => eventItem.title === name);
+            console.log(inItinerary);
 
             if (!inItinerary) {
                 await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary`, {
