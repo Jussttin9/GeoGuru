@@ -3,7 +3,7 @@ import styles from '@/app/page.module.css';
 import Link from 'next/link';
 import SelectedEvent from './selectedEvent';
 
-export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents }) {
+export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents, uid, tripID }) {
     const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States', 'United Kingdom'];
     const serializedLocations = destination == 'None' ? testLocations.join('/') : destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
@@ -18,11 +18,25 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
         ))
     }
 
+    const loadItinerary = async () => {
+        selectedList.map(item => (
+            placeEvents(item)
+        ));
+    }
+
+    const placeEvents = async (name) => {
+        await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary`, {
+            title: name
+        });
+    }
+
+    useEffect(() => {
+        loadItinerary();
+    }, [])
+        
     useEffect(() => {
         updateSelectedList(selectedEvents)
     }, [selectedEvents])
-
-    useEffect
 
     return (
         <div className={styles.info}>
@@ -37,7 +51,7 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
             {selectedList}
             {renderSelectedEvents()}
             <div className={styles.listEvents}>
-                <Link href={`/events/${serializedLocations}`}>
+                <Link href={`/events/${uid}/${serializedLocations}`}>
                     <button className={styles.chooseEvent}>Choose Events</button>
                 </Link>
             </div>

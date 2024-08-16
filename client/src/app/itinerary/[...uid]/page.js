@@ -27,14 +27,6 @@ import ItineraryPage from '../../COMPONENTS/itinerary-page';
 //     title: String,
 // }]
 
-class Event {
-  constructor(title, location, date) {
-    this.title = title;
-    this.location = location;
-    this.date = date;
-  }
-}
-
 export default function Itinerary({ params }) {
 
   const [start, setStart] = useState('None');
@@ -77,19 +69,12 @@ export default function Itinerary({ params }) {
   }
 
   const renderItinerary = (index) => {
-    const trip = trips[index]
     if (index == -1) {
       return (
-        <ItineraryPage
-        start={start}
-        end={end}
-        adults={adults}
-        child={child}
-        destination={destination}
-        selectedEvents={events}
-      />
+        <div>No Trip Selected</div>
       )
     }
+    const trip = trips[index]
     return (
       <ItineraryPage
         start={trip.startDate}
@@ -98,6 +83,8 @@ export default function Itinerary({ params }) {
         child={trip.children}
         destination={trip.destination}
         selectedEvents={trip.itinerary}
+        uid={uid}
+        tripID={trip._id}
       />
     )
   }

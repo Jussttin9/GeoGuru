@@ -1,7 +1,7 @@
 'use client'
 
 import EventCard from "@/app/COMPONENTS/event";
-import styles from '../../page.module.css';
+import styles from '../../../page.module.css';
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -11,7 +11,8 @@ export default function Events({ params }) {
 
     const locationArr = JSON.stringify(params.location);
     const locations = JSON.parse(decodeURI(locationArr));
-
+    
+    const uid = params.uid;
 
     const setEvents = (key, eventsArr) => {
         setSelectedEvents(eventMap => new Map(eventMap).set(key, eventsArr));
