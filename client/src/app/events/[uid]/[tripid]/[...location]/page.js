@@ -3,6 +3,7 @@
 import EventCard from "@/app/COMPONENTS/event";
 import styles from '@/app/page.module.css';
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 export default function Events({ params }) {
@@ -15,11 +16,14 @@ export default function Events({ params }) {
     const uid = params.uid;
     const tripID = params.tripid;
 
+    const router = useRouter();
+
     const handleClick = async () => {
         // put in all selected events into the trip's itinerary array
         try {
             const promises = eventValues.map((item) => placeEvents(item));
             await Promise.all(promises);
+            router.push(`/itinerary/${uid}`);
         } catch (error) {
             console.error("Error placing events:", error);
         }
@@ -70,7 +74,7 @@ export default function Events({ params }) {
                 ))}
             </div>
             {displaySelectedEvents()}
-            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent} onClick={handleClick}>Select Events</button></Link>
+            <button className={styles.chooseEvent} onClick={handleClick}>Select Events</button>
         </div>
     );
 }
