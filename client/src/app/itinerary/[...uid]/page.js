@@ -59,7 +59,7 @@ export default function Itinerary({ params }) {
     return (
       <>
         {trips.map((trip, index) => (
-          <button key={index} className={styles.dateCard} onClick={() => setTripIndex(index)}>
+          <button key={trip._id} className={styles.dateCard} onClick={() => setTripIndex(index)}>
             <div>Trip {index+1}</div>
             <div>&rsaquo;</div>
           </button>
@@ -84,7 +84,7 @@ export default function Itinerary({ params }) {
         destination={trip.destination}
         selectedEvents={trip.itinerary}
         uid={uid}
-        tripID={trip._id}
+        tripID={trip._id}   // might have to remove
       />
     )
   }

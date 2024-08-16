@@ -8,8 +8,20 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
     const serializedLocations = destination == 'None' ? testLocations.join('/') : destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
 
-    const removeItem = (name) => {
+    const removeItem = async (name) => {
         updateSelectedList(selectedList.filter(item => item !== name));
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itineraries`);
+        const tripsArr = response.data;
+        for (trip in tripsArr) {
+            if (trip.title === name) {
+                try {
+                    await axios.delete(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary/${trip._id}`);
+                } catch (error) {
+                    console.error('Error deleting event:', error);
+                }
+                break;
+            }
+        }
     }
 
     const renderSelectedEvents = () => {
@@ -17,22 +29,6 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
             <SelectedEvent key={item} name={item} removeEvent={removeItem}/>
         ))
     }
-
-    const loadItinerary = async () => {
-        selectedList.map(item => (
-            placeEvents(item)
-        ));
-    }
-
-    const placeEvents = async (name) => {
-        await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary`, {
-            title: name
-        });
-    }
-
-    useEffect(() => {
-        loadItinerary();
-    }, [])
         
     useEffect(() => {
         updateSelectedList(selectedEvents)
@@ -41,7 +37,6 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
     return (
         <div className={styles.info}>
             <div className={styles.tripName}>Trip to {destination == 'None' ? testLocations.join(', ') : destination.join(', ')}</div>
-            {/* <div className={styles.tripName}>Trip to {testLocations.join(', ')}</div> */}
             <div className={styles.tripInfo}>
                 <p>Start Date: {start}</p>
                 <p>End Date: {end}</p>
@@ -51,7 +46,7 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
             {selectedList}
             {renderSelectedEvents()}
             <div className={styles.listEvents}>
-                <Link href={`/events/${uid}/${serializedLocations}`}>
+                <Link href={`/events/${uid}/${tripID}/${serializedLocations}`}>
                     <button className={styles.chooseEvent}>Choose Events</button>
                 </Link>
             </div>

@@ -1,7 +1,7 @@
 'use client'
 
 import EventCard from "@/app/COMPONENTS/event";
-import styles from '../../../page.module.css';
+import styles from '@/app/page.module.css';
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -13,6 +13,33 @@ export default function Events({ params }) {
     const locations = JSON.parse(decodeURI(locationArr));
     
     const uid = params.uid;
+    const tripID = params.tripid;
+
+    const handleClick = async () => {
+        // put in all selected events into the trip's itinerary array
+        try {
+            const promises = eventValues.map((item) => placeEvents(item));
+            await Promise.all(promises);
+        } catch (error) {
+            console.error("Error placing events:", error);
+        }
+    };
+
+    const placeEvents = async (name) => {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itineraries`);
+            const tripsArr = response.data;
+            const inItinerary = tripsArr.some(eventItem => eventItem.title === name);
+
+            if (!inItinerary) {
+                await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary`, {
+                    title: name
+                });
+            }
+        } catch (error) {
+            console.error("Error storing events to trip:", error);
+        }
+    };
 
     const setEvents = (key, eventsArr) => {
         setSelectedEvents(eventMap => new Map(eventMap).set(key, eventsArr));
@@ -43,7 +70,7 @@ export default function Events({ params }) {
                 ))}
             </div>
             {displaySelectedEvents()}
-            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent}>Select Events</button></Link>
+            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent} onClick={handleClick}>Select Events</button></Link>
         </div>
     );
 }
