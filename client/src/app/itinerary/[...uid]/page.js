@@ -45,6 +45,7 @@ export default function Itinerary({ params }) {
   const [events, setEvents] = useState([]);
 
   const [trips, setTrips] = useState([]);
+  const [tripIndex, setTripIndex] = useState(-1);
 
   const uid = params.uid[0]
 
@@ -60,7 +61,45 @@ export default function Itinerary({ params }) {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/get-info/${uid}`);
     const user = response.data;
     setTrips(user.trips);
-    console.log(user.trips)
+  }
+
+  const renderTrips = () => {
+    return (
+      <>
+        {trips.map((trip, index) => (
+          <button key={index} className={styles.dateCard} onClick={() => setTripIndex(index)}>
+            <div>Trip {index+1}</div>
+            <div>&rsaquo;</div>
+          </button>
+        ))}
+      </>
+    );
+  }
+
+  const renderItinerary = (index) => {
+    const trip = trips[index]
+    if (index == -1) {
+      return (
+        <ItineraryPage
+        start={start}
+        end={end}
+        adults={adults}
+        child={child}
+        destination={destination}
+        selectedEvents={events}
+      />
+      )
+    }
+    return (
+      <ItineraryPage
+        start={trip.startDate}
+        end={trip.endDate}
+        adults={trip.adults}
+        child={trip.children}
+        destination={trip.destination}
+        selectedEvents={trip.itinerary}
+      />
+    )
   }
 
   useEffect(() => {
@@ -95,21 +134,9 @@ export default function Itinerary({ params }) {
     >
       <div className={styles.itineraryList}>
         <strong>Itinerary</strong>
-        {trips.map((trip, index) => (
-          <button key={index} className={styles.dateCard}>
-            <div>Trip {index+1}</div>
-            <div>&rsaquo;</div>
-          </button>
-        ))}
+        {renderTrips()}
       </div>
-      <ItineraryPage
-        start={start}
-        end={end}
-        adults={adults}
-        child={child}
-        destination={destination}
-        selectedEvents={events}
-      />
+      {renderItinerary(tripIndex)}
     </m.div>
   );
 }
