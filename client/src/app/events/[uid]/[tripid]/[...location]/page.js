@@ -4,11 +4,13 @@ import EventCard from "@/app/COMPONENTS/event";
 import styles from '@/app/page.module.css';
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Events({ params }) {
     const [selectedEvents, setSelectedEvents] = useState(new Map())
     const [eventValues, setEventValues] = useState([])
     const [loading, setLoading] = useState(false)
+    const [itinerary, setItinerary] = useState([])
 
     const locationArr = JSON.stringify(params.location);
     const locations = JSON.parse(decodeURI(locationArr));
@@ -16,10 +18,16 @@ export default function Events({ params }) {
     const uid = params.uid;
     const tripID = params.tripid;
 
+    const loadItinerary = async () => {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itineraries`);
+        const tripsArr = response.data;
+        setItinerary(tripsArr);
+    }
+
     const handleClick = async (e) => {
         e.preventDefault();
         setLoading(true);
-        // put in all selected events into the trip's itinerary array
+        // Put in all selected events into the trip's itinerary array
         try {
             const promises = eventValues.map((item) => placeEvents(item));
             await Promise.all(promises);
@@ -32,10 +40,9 @@ export default function Events({ params }) {
     };
 
     const placeEvents = async (name) => {
+        console.log(name);
         try {
-            const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itineraries`);
-            const tripsArr = response.data;
-            const inItinerary = tripsArr.some(eventItem => eventItem.title === name);
+            const inItinerary = itinerary.some(eventItem => eventItem.title === name);
 
             if (!inItinerary) {
                 await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary`, {
@@ -58,6 +65,10 @@ export default function Events({ params }) {
     };
 
     useEffect(() => {
+        loadItinerary();
+    }, []);
+
+    useEffect(() => {
         if(!window.sessionStorage.getItem("events")) {
             window.sessionStorage.setItem("events", JSON.stringify([]));
         }
@@ -76,7 +87,7 @@ export default function Events({ params }) {
                 ))}
             </div>
             {displaySelectedEvents()}
-            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent} onClick={handleClick}>{loading ? 'Processing...' : 'Select Events'}</button></Link>
+            <button className={styles.chooseEvent} onClick={handleClick}>{loading ? 'Processing...' : 'Select Events'}</button>
         </div>
     );
 }

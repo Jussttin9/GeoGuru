@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '@/app/page.module.css';
 import Link from 'next/link';
 import SelectedEvent from './selectedEvent';
+import axios from 'axios';
 
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents, uid, tripID }) {
     const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States', 'United Kingdom'];
