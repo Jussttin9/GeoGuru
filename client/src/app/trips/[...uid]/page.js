@@ -27,25 +27,6 @@ function getNewDates(date1, date2) {
   return newDate1 < newDate2;
 }
 
-// USER SCHEMA:
-// _id: String,
-// username: String,
-// email: String,
-// trips: [{
-//     type: Schema.Types.ObjectId,
-//     ref: 'Trip'
-// }]
-
-// TRIP SCHEMA:
-// startDate: String,
-// endDate: String,
-// adults: Number,
-// children: Number,
-// destination: [String],
-// itinerary: [{
-//     title: String,
-// }]
-
 export default function TripPlanner({ params }) {
   const [date, setDate] = useState(new Date());
   const [startDate, setStartDate] = useState("");
@@ -65,7 +46,16 @@ export default function TripPlanner({ params }) {
     let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
     window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
 
-    response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/register`)
+    response = await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/add-trip`, {
+      userID: uid,
+      startDate: startDate,
+      endDate: endDate,
+      tripID: uid,
+      adults: numAdults,
+      children: numChildren,
+      destination: JSON.parse(window.sessionStorage.getItem('destination')),
+      itinerary: []
+    });
   }
 
   const handleAdultNum = (e) => {
@@ -294,7 +284,7 @@ export default function TripPlanner({ params }) {
             <p className={styles.label}>End Date: </p>
             <p className={styles.dateVal}>{endDate}</p>
           </div>
-          <button onClick={handleClick}><Link href={'itinerary'}>generate &rsaquo;&rsaquo;</Link></button>
+          <button onClick={handleClick}><Link href={`/itinerary/${uid}`}>generate &rsaquo;&rsaquo;</Link></button>
         </div>
       </div>
     </m.div>

@@ -42,7 +42,7 @@ export default function Events({ params }) {
                 ))}
             </div>
             {displaySelectedEvents()}
-            <Link href={'/itinerary'}><button className={styles.chooseEvent}>Select Events</button></Link>
+            <Link href={`/itinerary/${uid}`}><button className={styles.chooseEvent}>Select Events</button></Link>
         </div>
     );
 }

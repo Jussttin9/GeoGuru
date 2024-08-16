@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import styles from '../../page.module.css';
+import axios from 'axios';
 import { motion as m } from 'framer-motion';
 import ItineraryPage from '../../COMPONENTS/itinerary-page';
 
@@ -42,10 +43,10 @@ export default function Itinerary({ params }) {
   const [child, setChild] = useState('0');
   const [destination, setDestination] = useState('None');
   const [events, setEvents] = useState([]);
-  const [travel, setTravelInfo] = useState('');
+
+  const [trips, setTrips] = useState([]);
 
   const uid = params.uid[0]
-
 
   // DELETE TESTS ------------------------------------------------------------
   const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States'];
@@ -55,13 +56,16 @@ export default function Itinerary({ params }) {
   const testTravel = JSON.stringify(testJSON);
   // DELETE TESTS ------------------------------------------------------------
 
+  const loadTrips = async () => {
+    const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/get-info/${uid}`);
+    const user = response.data;
+    setTrips(user.trips.length);
+  }
 
   useEffect(() => {
     const travelInfo = JSON.parse(window.sessionStorage.getItem('travelInfo'));
     const destinationInfo = JSON.parse(window.sessionStorage.getItem('destination'));
     const selectedEvents = JSON.parse(window.sessionStorage.getItem('events'));
-
-    setTravelInfo(JSON.stringify(travelInfo));
 
     if (travelInfo) {
       setStart(travelInfo.start || 'None');
@@ -77,6 +81,8 @@ export default function Itinerary({ params }) {
     if (selectedEvents) {
       setEvents(selectedEvents || ['No events selected']);
     }
+
+    loadTrips();
   }, []);
 
   return (
@@ -88,24 +94,12 @@ export default function Itinerary({ params }) {
     >
       <div className={styles.itineraryList}>
         <strong>Itinerary</strong>
-        {/* replace with date itinerary components later */}
-        <div className={styles.dateCard}>
-            <div>date card 1</div>
+        {trips.map((trips, index) => {
+          <div key={index} className={styles.dateCard}>
+            <div>Trip {index+1}</div>
             <div>&rsaquo;</div>
-        </div>
-        <div className={styles.dateCard}>
-            <div>blank</div>
-            <div>blank</div>
-            <div>&rsaquo;</div>
-        </div>
-        <div className={styles.dateCard}>
-            <div>blank</div>
-            <div>&rsaquo;</div>
-        </div>
-        <div className={styles.dateCard}>
-            <div>blank</div>
-            <div>&rsaquo;</div>
-        </div>
+          </div>
+        })}
       </div>
       <ItineraryPage
         start={start}

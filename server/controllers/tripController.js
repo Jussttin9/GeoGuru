@@ -2,11 +2,36 @@
 const Trip = require('../database_schema/tripSchema');
 const User = require('../database_schema/userSchema');
 
+// TRIP SCHEMA:
+// userID: String,
+// startDate: String,
+// endDate: String,
+// tripID: Number,
+// adults: Number,
+// children: Number,
+// destination: [String],
+// itinerary: [{
+//     title: String,
+// }]
+
+// --------------------------NOTE---------------------------------
+// tripID should be assigned as the given _id for each trip object
+// --------------------------NOTE---------------------------------
+
+
+// Checklist:
+// [X] addTrip
+// [x] updateTrip
+// [X] deleteTrip
+// [X] addItineraryItem
+// [X] getTripItineraries
+// [X] deleteItineraryItem
+// [X] updateItineraryItem      *DONT NEED*
 
 // Create a new trip and add it to a user's list
 const addTrip = async (req, res) => {
     try {
-        const { userID, startDate, endDate, tripID, destination, itinerary } = req.body;
+        const { userID, startDate, endDate, tripID, adults, children, destination, itinerary } = req.body;
 
         // Find user by user ID
         const user = await User.findById(userID);
@@ -19,6 +44,8 @@ const addTrip = async (req, res) => {
             endDate,
             tripID,
             userID: user._id,
+            adults,
+            children,
             destination,
             itinerary
         });
@@ -37,7 +64,7 @@ const addTrip = async (req, res) => {
 
 // Update a trip from a user's list
 const updateTrip = async (req, res) => {
-    const { userID, tripID, startDate, endDate, newtripID, destination, itinerary } = req.body;
+    const { userID, tripID, startDate, endDate, newtripID, adults, children, destination, itinerary } = req.body;
 
     try {
         
@@ -54,6 +81,8 @@ const updateTrip = async (req, res) => {
                     startDate: startDate || undefined,
                     endDate: endDate || undefined,
                     tripID: newtripID || undefined,
+                    adults: adults || 0,
+                    children: children || 0,
                     destination: destination || undefined,
                     itinerary: itinerary || undefined
                 }
@@ -97,7 +126,7 @@ const deleteTrip = async (req, res) => {
 const addItineraryItem = async (req, res) => {
     try {
         const tripId = req.params.tripID;
-        const { title, location, description, date, cost } = req.body;
+        const { title } = req.body;
 
         // Find the trip by ID
         const trip = await Trip.findById(tripId);
@@ -106,7 +135,7 @@ const addItineraryItem = async (req, res) => {
         }
 
         // Add the new itinerary item
-        trip.itinerary.push({ title, location, description, date, cost });
+        trip.itinerary.push({ title });
         await trip.save();
 
         res.status(200).json(trip);
@@ -159,7 +188,7 @@ const updateItineraryItem = async (req, res) => {
     try {
         const tripId = req.params.tripID;
         const itemId = req.params.itemID;
-        const { title, location, description, date, cost } = req.body;
+        const { title } = req.body;
 
         // Find the trip by ID
         const trip = await Trip.findById(tripId);
@@ -174,10 +203,6 @@ const updateItineraryItem = async (req, res) => {
         }
 
         itineraryItem.title = title || itineraryItem.title;
-        itineraryItem.location = location || itineraryItem.location;
-        itineraryItem.description = description || itineraryItem.description;
-        itineraryItem.date = date || itineraryItem.date;
-        itineraryItem.cost = cost || itineraryItem.cost;
 
         await trip.save();
 
