@@ -105,6 +105,8 @@ const deleteTrip = async (req, res) => {
     const { userID, tripID } = req.body;
 
     try {
+        console.log(userID);
+        console.log(tripID);
         const user = await User.findById(userID);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

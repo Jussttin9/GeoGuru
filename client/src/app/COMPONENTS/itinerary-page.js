@@ -3,11 +3,27 @@ import styles from '@/app/page.module.css';
 import Link from 'next/link';
 import SelectedEvent from './selectedEvent';
 import axios from 'axios';
+import { motion as m } from "framer-motion";
 
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents, uid, tripID }) {
     const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States', 'United Kingdom'];
     const serializedLocations = destination == 'None' ? testLocations.join('/') : destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
+    const [deletePopup, setDeletePopup] = useState(false);
+
+    const deleteTrip = async () => {
+        try {
+            await axios.delete(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/delete-trip`, {
+                data: {
+                    userID: uid,
+                    tripID: tripID
+                }
+            });
+            setDeletePopup(!deletePopup);
+        } catch (error) {
+            console.error("Couldn't delete trip:", error);
+        }
+    }
 
     const removeItem = async (name) => {
         updateSelectedList(selectedList.filter(item => item !== name));
@@ -49,7 +65,30 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
                 <Link href={`/events/${uid}/${tripID}/${serializedLocations}`}>
                     <button className={styles.chooseEvent}>Choose Events</button>
                 </Link>
+                <button className={styles.deleteTrip} onClick={() => setDeletePopup(!deletePopup)}>Delete Trip</button>
             </div>
+            {deletePopup && (
+                <div>
+                    <m.div onClick={() => setDeletePopup(!deletePopup)} className={styles.deleteShadow}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.75, ease: 'easeOut' }}
+                    />
+                    <m.div className={styles.deleteContent}
+                    initial={{ top: "150%" }}
+                    animate={{ top: "43%" }}
+                    transition={{ duration: 0.75, type: "spring" }}
+                    >
+                        <br/>
+                        <h2>Are you sure you want to delete this trip?</h2>
+                        <br/>
+                        <div>
+                            <button className={styles.deleteButton} onClick={deleteTrip}>Yes</button>
+                            <button className={styles.deleteButton} onClick={() => setDeletePopup(!deletePopup)}>No</button>
+                        </div>
+                    </m.div>
+                </div>
+            )}
         </div>
     );
 }
