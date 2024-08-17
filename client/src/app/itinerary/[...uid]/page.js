@@ -75,6 +75,7 @@ export default function Itinerary({ params }) {
       )
     }
     const trip = trips[index]
+    const itinerary = trip.itinerary.map((item) => item.title);
     return (
       <ItineraryPage
         start={trip.startDate}
@@ -82,7 +83,7 @@ export default function Itinerary({ params }) {
         adults={trip.adults}
         child={trip.children}
         destination={trip.destination}
-        selectedEvents={trip.itinerary}
+        selectedEvents={itinerary}
         uid={uid}
         tripID={trip._id}   // might have to remove
       />

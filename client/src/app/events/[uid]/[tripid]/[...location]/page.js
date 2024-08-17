@@ -23,14 +23,14 @@ export default function Events({ params }) {
         setItinerary(tripsArr);
     }
 
-    const handleClick = async (e) => {
-        e.preventDefault();
+    const handleClick = async () => {
         setLoading(true);
-        // Put in all selected events into the trip's itinerary array
         try {
-            const promises = eventValues.map((item) => placeEvents(item));
+            const promises = eventValues.map((eventList) => eventList.map((item) => placeEvents(item)));
             await Promise.all(promises);
-            window.location.href = `/itinerary/${uid}`;
+            setTimeout(() => {
+                window.location.href = `/itinerary/${uid}`;
+            }, 2000);
         } catch (error) {
             console.error("Error placing events:", error);
         } finally {
@@ -41,8 +41,6 @@ export default function Events({ params }) {
     const placeEvents = async (name) => {
         try {
             const inItinerary = itinerary.some(eventItem => eventItem.title === name);
-            console.log(inItinerary);
-
             if (!inItinerary) {
                 await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary`, {
                     title: name

@@ -44,7 +44,6 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
                 <p>Adults: {adults} Children: {child}</p>
             </div>
             <div className={styles.tripEvents}>List of selected events</div>
-            {selectedList}
             {renderSelectedEvents()}
             <div className={styles.listEvents}>
                 <Link href={`/events/${uid}/${tripID}/${serializedLocations}`}>
