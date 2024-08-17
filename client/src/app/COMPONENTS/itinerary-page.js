@@ -11,17 +11,17 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
 
     const removeItem = async (name) => {
         updateSelectedList(selectedList.filter(item => item !== name));
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itineraries`);
-        const tripsArr = response.data;
-        for (trip in tripsArr) {
-            if (trip.title === name) {
-                try {
+        try {
+            const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itineraries`);
+            const tripsArr = response.data;
+            for (const trip of tripsArr) {
+                if (trip.title === name) {
                     await axios.delete(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/${tripID}/itinerary/${trip._id}`);
-                } catch (error) {
-                    console.error('Error deleting event:', error);
+                    break;
                 }
-                break;
             }
+        } catch (error) {
+            console.error('Error deleting event:', error);
         }
     }
 
