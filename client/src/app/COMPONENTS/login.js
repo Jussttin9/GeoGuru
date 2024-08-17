@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './../page.module.css';
-import axios from 'axios';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -11,7 +10,6 @@ import { useEffect } from 'react';
 
 import { auth } from '../firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useUser } from './userContext';
 
 export default function LoginInfo() {
     
@@ -37,7 +35,7 @@ export default function LoginInfo() {
     }
 
     const [error, setError] = useState(null);
-    const { setUid } = useUser();
+    const [uid, setUid] = useState('');
 
     // useEffect to remedy toggleCheckbox bug
     // { checking on an empty password field will invert visibility }
@@ -64,8 +62,8 @@ export default function LoginInfo() {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
           const userID = await userCredential.user.uid;
-          setUid(userID);
           routeToStart(userID);
+          setUid(userID);
         } catch (error) {
           if(error.code === 'auth/invalid-email') {
             setError('Invalid Email');
@@ -98,6 +96,10 @@ export default function LoginInfo() {
         }
         console.log(document.getElementById("passwordHideImg").src);
     }
+
+    useEffect(() => {
+      localStorage.setItem('uid', uid);
+    }, [uid])
 
     // here is the returned HTML, where we have an <input> box that holds the
     // get value for email and password, and that can also call its respective

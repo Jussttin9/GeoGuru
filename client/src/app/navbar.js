@@ -3,7 +3,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useUser } from './COMPONENTS/userContext';
+import { useEffect, useState } from 'react';
 
 // Navbar() is the navbar of our page. Because of how it is returned in
 // layout.js, it will always remain at the top of our page before { children }.
@@ -20,8 +20,13 @@ import { useUser } from './COMPONENTS/userContext';
 // send them to, or an Image. In the first link I placed the geoguru Logo image
 // to represent the homepage.
 export default function Navbar() {
+    const [uid, setUid] = useState('');
     const pathname = usePathname();
-    const { uid } = useUser();
+
+    useEffect(() => {
+        setUid(localStorage.getItem('uid'));
+    }, [])
+
     if (pathname === '/' || pathname === '/register') {
         return (
             <div className={styles.navbar}>

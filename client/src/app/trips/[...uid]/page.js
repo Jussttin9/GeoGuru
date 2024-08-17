@@ -46,7 +46,7 @@ export default function TripPlanner({ params }) {
     let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
     window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
 
-    response = await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/add-trip`, {
+    await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/add-trip`, {
       userID: uid,
       startDate: startDate,
       endDate: endDate,

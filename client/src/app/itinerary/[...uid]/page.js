@@ -28,34 +28,36 @@ import ItineraryPage from '../../COMPONENTS/itinerary-page';
 // }]
 
 export default function Itinerary({ params }) {
-
-  const [start, setStart] = useState('None');
-  const [end, setEnd] = useState('None');
-  const [adults, setAdults] = useState('0');
-  const [child, setChild] = useState('0');
-  const [destination, setDestination] = useState('None');
-  const [events, setEvents] = useState([]);
-
   const [trips, setTrips] = useState([]);
   const [tripIndex, setTripIndex] = useState(-1);
+  const [update, setUpdate] = useState(false);
 
   const uid = params.uid[0]
-
-  // DELETE TESTS ------------------------------------------------------------
-  const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States'];
-  const serializedLocations = testLocations.join('/');
-
-  const testJSON = {"start":"August 9, 2024","end":"August 22, 2024","adults":"2","children":"0"};
-  const testTravel = JSON.stringify(testJSON);
-  // DELETE TESTS ------------------------------------------------------------
 
   const loadTrips = async () => {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/get-info/${uid}`);
     const user = response.data;
+    if (user.trips.length == 0) {
+      setTripIndex(-1);
+    }
     setTrips(user.trips);
   }
 
+  const reloadTrip = () => {
+    setUpdate(!update);
+  }
+
   const renderTrips = () => {
+    if (trips.length == 0) {
+      return (
+        <div>
+          No trips made. 
+          <br/>
+          Click the 'TRIPS' tab to create a trip.
+        </div>
+      );
+    }
+    
     return (
       <>
         {trips.map((trip, index) => (
@@ -71,10 +73,14 @@ export default function Itinerary({ params }) {
   const renderItinerary = (index) => {
     if (index == -1) {
       return (
-        <div>No Trip Selected</div>
+        <div className={styles.noTrip}>
+          No Trip Selected
+        </div>
       )
     }
     const trip = trips[index]
+    console.log(trips);
+    console.log(trip);
     const itinerary = trip.itinerary.map((item) => item.title);
     return (
       <ItineraryPage
@@ -85,33 +91,19 @@ export default function Itinerary({ params }) {
         destination={trip.destination}
         selectedEvents={itinerary}
         uid={uid}
-        tripID={trip._id}   // might have to remove
+        tripID={trip._id}
+        load={reloadTrip}
       />
     )
   }
 
   useEffect(() => {
-    const travelInfo = JSON.parse(window.sessionStorage.getItem('travelInfo'));
-    const destinationInfo = JSON.parse(window.sessionStorage.getItem('destination'));
-    const selectedEvents = JSON.parse(window.sessionStorage.getItem('events'));
-
-    if (travelInfo) {
-      setStart(travelInfo.start || 'None');
-      setEnd(travelInfo.end || 'None');
-      setAdults(travelInfo.adults || '0');
-      setChild(travelInfo.children || '0');
-    }
-
-    if (destinationInfo) {
-      setDestination(destinationInfo || 'None');
-    }
-
-    if (selectedEvents) {
-      setEvents(selectedEvents || ['No events selected']);
-    }
-
     loadTrips();
   }, []);
+
+  useEffect(() => {
+    loadTrips();
+  }, [update])
 
   return (
     <m.div className={styles.itinerary}

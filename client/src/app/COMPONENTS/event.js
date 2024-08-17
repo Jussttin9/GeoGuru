@@ -432,24 +432,7 @@ export default function EventCard({ location, setSelectedEvents }) {
             }
         }
     }
-
-    // const fetchEvents = async () => {
-    //     try {
-    //       const response = await axios.get(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/info/attractions?city=${countryCapitals.get(location)}&country=${countryCodes.get(location)}&radius=10000`);
-    //       const seenEvents = new Set();
-    //       const uniqueEvents = [];
-    //       response.data.forEach(event => {
-    //         if(!seenEvents.has(event.name)) {
-    //             seenEvents.add(event.name);
-    //             uniqueEvents.push(event);
-    //         }
-    //       });
-    //       updateItems(uniqueEvents);
-    //     } catch(error) {
-    //       console.error('Failed to retrieve nearby events:', error);
-    //     };
-    // }
-
+    
     function updateItems(eventList) {
         setItems(eventList.map(item => ({
             id: item.name,
