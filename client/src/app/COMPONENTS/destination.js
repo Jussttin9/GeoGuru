@@ -215,26 +215,23 @@ export default function DestinationComponent() {
         if (!window.sessionStorage.getItem("destination")) {
             window.sessionStorage.setItem('destination', JSON.stringify(selectedOptions));
         }
-        let destination = JSON.parse(window.sessionStorage.getItem('destination'));
-        destination = selectedOptions;
-        window.sessionStorage.setItem('destination', JSON.stringify(destination));
+        window.sessionStorage.setItem('destination', JSON.stringify(selectedOptions));
     })
-  
       
     return (
         <div className={styles.to}>
             To
-            <Select
-                isMulti
-                // isSearchable
-                options={options}
-                className={styles.select}
-                onChange={handleChange}
-                styles={customStyle}
-                components={{
-                    ClearIndicator: () => null,
-                }}
-            />
+                <Select
+                    isMulti
+                    // isSearchable
+                    options={options}
+                    className={styles.select}
+                    onChange={handleChange}
+                    styles={customStyle}
+                    components={{
+                        ClearIndicator: () => null,
+                    }}
+                />
         </div>
     );
 }

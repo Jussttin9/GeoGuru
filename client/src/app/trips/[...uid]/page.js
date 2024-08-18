@@ -3,7 +3,6 @@
 import styles from '../../page.module.css';
 import { motion as m } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import DestinationComponent from '../../COMPONENTS/destination';
 import axios from 'axios';
 
@@ -35,6 +34,7 @@ export default function TripPlanner({ params }) {
   const [numAdults, setNumAdults] = useState(1);
   const [numChildren, setNumChildren] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [popup, setPopup] = useState(false);
   
   const uid = params.uid[0];
 
@@ -46,6 +46,11 @@ export default function TripPlanner({ params }) {
   async function handleClick() {
     setLoading(true);
     try {
+      if (startDate === "" || endDate === "" || JSON.parse(window.sessionStorage.getItem('destination')).length == 0) {
+        setPopup(true);
+        return;
+      }
+
       let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
       window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
 
@@ -299,6 +304,25 @@ export default function TripPlanner({ params }) {
           <button onClick={handleClick}>{loading ? 'generating trip...' : 'generate'} &rsaquo;&rsaquo;</button>
         </div>
       </div>
+      {popup && (
+        <div>
+            <m.div onClick={() => setPopup(!popup)} className={styles.deleteShadow}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.75, ease: 'easeOut' }}
+            />
+            <m.div className={styles.deleteContent}
+            initial={{ top: "150%" }}
+            animate={{ top: "43%" }}
+            transition={{ duration: 0.75, type: "spring" }}
+            >
+                <h2 className={styles.notice}>Please make sure to select dates and destination(s)</h2>
+                <div>
+                    <button className={styles.deleteButton} onClick={() => setPopup(!popup)}>Return</button>
+                </div>
+            </m.div>
+        </div>
+      )}
     </m.div>
   );
 }

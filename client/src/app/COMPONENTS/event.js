@@ -4,11 +4,6 @@ import styles from '../page.module.css'
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
-/*
-TODOS: 
-    - if USA, decide which state
-*/
-
 
 export default function EventCard({ location, setSelectedEvents }) {
     // gets a list of nearby locations with each array element formatted as [{name, xid, image}]

@@ -39,6 +39,8 @@ export default function Itinerary({ params }) {
     const user = response.data;
     if (user.trips.length == 0) {
       setTripIndex(-1);
+    } else {
+      setTripIndex(0);
     }
     setTrips(user.trips);
   }
@@ -81,6 +83,7 @@ export default function Itinerary({ params }) {
     const trip = trips[index]
     console.log(trips);
     console.log(trip);
+    console.log(index);
     const itinerary = trip.itinerary.map((item) => item.title);
     return (
       <ItineraryPage

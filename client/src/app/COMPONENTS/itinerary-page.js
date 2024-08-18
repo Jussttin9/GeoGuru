@@ -6,8 +6,7 @@ import axios from 'axios';
 import { motion as m } from "framer-motion";
 
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents, uid, tripID, load }) {
-    const testLocations = ['South Korea', 'Japan', 'Vietnam', 'United States', 'United Kingdom'];
-    const serializedLocations = destination == 'None' ? testLocations.join('/') : destination.join('/');
+    const serializedLocations = destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
     const [deletePopup, setDeletePopup] = useState(false);
 
@@ -54,7 +53,7 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
 
     return (
         <div className={styles.info}>
-            <div className={styles.tripName}>Trip to {destination == 'None' ? testLocations.join(', ') : destination.join(', ')}</div>
+            <div className={styles.tripName}>Trip to {destination.join(', ')}</div>
             <div className={styles.tripInfo}>
                 <p>Start Date: {start}</p>
                 <p>End Date: {end}</p>

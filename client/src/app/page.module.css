@@ -548,6 +548,10 @@ a.logo {
   align-items: center;
 }
 
+.choices {
+
+}
+
 .adult, .child {
   display: flex;
   justify-content: space-between;
@@ -807,6 +811,11 @@ a.logo {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.notice {
+  color: black;
+  margin: 30px;
 }
 
 .deleteShadow {
