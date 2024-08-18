@@ -61,9 +61,13 @@ export default function LoginInfo() {
       if ((useEmail.length > 0) && (usePass.length > 0)) {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
-          const userID = await userCredential.user.uid;
-          routeToStart(userID);
-          setUid(userID);
+          if (userCredential.user.emailVerified) {
+            const userID = userCredential.user.uid;
+            routeToStart(userID);
+            setUid(userID);
+          } else {
+            setError('Email is not verified. Please verify your email.');
+          }
         } catch (error) {
           if(error.code === 'auth/invalid-email') {
             setError('Invalid Email');

@@ -7,7 +7,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { motion as m } from 'framer-motion';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import { auth } from '../firebase';
 
 export default function Register() {
@@ -26,21 +26,29 @@ export default function Register() {
     setUsername(event.target.value);
   };
 
+  const [userObj, setUser] = useState(null);
+
   const [error, setError] = useState(null);
+  const [verifyPopup, setVerifyPopup] = useState(false);
+  const [message, setMessage] = useState('');
 
   const clickLogin = async () => {
     setError(null);
     if ((useEmail.length > 0) && (usePass.length > 0) && (username.length > 0)) {
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, useEmail, usePass);
-        const userID = await userCredential.user.uid;
+        setUser(userCredential);
+        const userID = userCredential.user.uid;
         // send a POST request to create a new User to store in mongoDB
         await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/user/register`, {
           email: useEmail,
           username: username,
           id: userID
         });
-        routeToHome();
+        if (userCredential.user != null) {
+          await sendEmailVerification(userCredential.user);
+        } 
+        setVerifyPopup(true);
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
           setError('Email already in use');
@@ -53,9 +61,19 @@ export default function Register() {
     }
   }
 
+  const sendVerificationEmail = async () => {
+    await sendEmailVerification(userObj.user);
+    setMessage('Verification email sent!');
+  }
+
   const router = useRouter();
   function routeToHome() {
     router.replace("/");
+  }
+
+  const exitPopup = () => {
+    setVerifyPopup(!verifyPopup);
+    setMessage('');
   }
 
   useEffect(() => {
@@ -173,6 +191,29 @@ export default function Register() {
           </div>
         </m.div>
         </div>
+        {verifyPopup && (
+                <div>
+                    <m.div onClick={() => exitPopup()} className={styles.deleteShadow}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.75, ease: 'easeOut' }}
+                    />
+                    <m.div className={styles.deleteContent}
+                    initial={{ top: "150%" }}
+                    animate={{ top: "43%" }}
+                    transition={{ duration: 0.75, type: "spring" }}
+                    >
+                        <br/>
+                        <h2 className={styles.notice}>A verification email has been sent.</h2>
+                        <br/>
+                        <div className={styles.verifyMessage}>{message}</div>
+                        <div>
+                            <button className={styles.verifyButton} onClick={() => sendVerificationEmail()}>Resend Verification Email</button>
+                            <button className={styles.deleteButton} onClick={() => routeToHome()}>Return</button>
+                        </div>
+                    </m.div>
+                </div>
+            )}
       </m.div>
     </>
   );

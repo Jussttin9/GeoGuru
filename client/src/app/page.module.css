@@ -832,6 +832,22 @@ a.logo {
   cursor: pointer;
 }
 
+.verifyMessage {
+  color: black;
+  margin-top: -30px;
+  font-weight: bolder;
+}
+
+.verifyButton {
+  background-color: #FFD5D2;
+  font-size: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  margin: 10px;
+  width: 200px;
+  cursor: pointer;
+}
+
 .getEvent {
   background-color: #FFE3E0;
   height: fit-content;
