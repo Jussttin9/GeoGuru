@@ -34,6 +34,7 @@ export default function TripPlanner({ params }) {
   const [combinedDays, setCombinedDays] = useState([]);
   const [numAdults, setNumAdults] = useState(1);
   const [numChildren, setNumChildren] = useState(1);
+  const [loading, setLoading] = useState(false);
   
   const uid = params.uid[0];
 
@@ -43,19 +44,30 @@ export default function TripPlanner({ params }) {
   ];
 
   async function handleClick() {
-    let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
-    window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
+    setLoading(true);
+    try {
+      let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
+      window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
 
-    await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/add-trip`, {
-      userID: uid,
-      startDate: startDate,
-      endDate: endDate,
-      tripID: uid,
-      adults: numAdults,
-      children: numChildren,
-      destination: JSON.parse(window.sessionStorage.getItem('destination')),
-      itinerary: []
-    });
+      await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/add-trip`, {
+        userID: uid,
+        startDate: startDate,
+        endDate: endDate,
+        tripID: uid,
+        adults: numAdults,
+        children: numChildren,
+        destination: JSON.parse(window.sessionStorage.getItem('destination')),
+        itinerary: []
+      });
+
+      setTimeout(() => {
+        window.location.href = `/itinerary/${uid}`;
+      }, 1000);
+    } catch (error) {
+      console.error('Error generating trip:', error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const handleAdultNum = (e) => {
@@ -284,7 +296,7 @@ export default function TripPlanner({ params }) {
             <p className={styles.label}>End Date: </p>
             <p className={styles.dateVal}>{endDate}</p>
           </div>
-          <button onClick={handleClick}><Link href={`/itinerary/${uid}`}>generate &rsaquo;&rsaquo;</Link></button>
+          <button onClick={handleClick}>{loading ? 'generating trip...' : 'generate'} &rsaquo;&rsaquo;</button>
         </div>
       </div>
     </m.div>
