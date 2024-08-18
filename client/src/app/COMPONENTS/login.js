@@ -61,7 +61,7 @@ export default function LoginInfo() {
       if ((useEmail.length > 0) && (usePass.length > 0)) {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
-          await userCredential.user.reload();
+          await reload(userCredential.user);
           console.log(userCredential.user);
           console.log(userCredential.user.emailVerified);
           if (userCredential.user.emailVerified) {
