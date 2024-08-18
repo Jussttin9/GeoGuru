@@ -111,7 +111,33 @@ export default function TripPlanner({ params }) {
         date.getMonth() === new Date().getMonth() &&
         date.getFullYear() === new Date().getFullYear()
       ) {
-        curDays.push(<div key={i} className={styles.today} onClick={() => setStartDate(dateString)}>{i}</div>);
+        curDays.push(<div key={i} className={styles.today} onClick={() => {
+          if (!startDateStatus) {
+            setStartDate(dateString);
+            window.sessionStorage.setItem("startDateStatus", "true");
+            window.sessionStorage.setItem("startDateString", dateString);
+            startDateString = dateString;
+            startDateStatus = true;
+          } else if (startDateStatus && !endDateStatus){
+            if (getNewDates(startDateString, dateString)) {
+              setEndDate(dateString);
+            } else {
+              setStartDate(dateString);
+              setEndDate(startDateString);
+              startDateString = dateString;
+              window.sessionStorage.setItem("startDateString", dateString);
+            }
+            window.sessionStorage.setItem("endDateStatus", "true");
+            endDateStatus = true;
+          } else {
+            setStartDate(dateString);
+            setEndDate("");
+            startDateString = dateString;
+            endDateStatus = false;
+            window.sessionStorage.setItem("startDateString", dateString);
+            window.sessionStorage.setItem("endDateStatus", "false");
+          }
+        }}>{i}</div>);
       } else {
         curDays.push(<div key={i} onClick={() => {
           if (!startDateStatus) {
@@ -234,7 +260,7 @@ export default function TripPlanner({ params }) {
       exit={{ opacity: 1 }}
     >
       <div className={styles.leftCol}>
-        <div className={styles.title}>
+        <div className={styles.headerWrapper}>
           <h3><strong>Build Your Trip</strong></h3>
         </div>
         <div id="destinations" className={styles.destinations}>

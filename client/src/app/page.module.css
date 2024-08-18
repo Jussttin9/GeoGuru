@@ -445,13 +445,24 @@ a.logo {
 }
 
 .itineraryList > strong {
-  margin: 10px;
-  font-size: 30px;
-  text-shadow: 2px 2px 2px pink; 
+  background-color: #FFC7C2;
+  padding: 20px 20px 20px 20px;
+  display: inline-block;
+  font-size: 50px;
+  margin-top: 20px;
+
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 25px;
+
+  color: white;
+  font-family: bold-font;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 10px #DA8D87; 
 }
 
-.dateCard {
-  background-color: #D9D9D9;
+.tripCard {
+  background-color: #FFD5D2;
   border-radius: 30px;
   margin-top: 5px;
   display: flex;
@@ -462,6 +473,7 @@ a.logo {
   font-size: 20px;
   width: 100%;
   height: 5%;
+  cursor: pointer;
 }
 
 .info {
@@ -503,23 +515,6 @@ a.logo {
   margin: 20px;
 }
 
-
-.title {
-  display: flex;
-  justify-content: center;
-}
-
-.title h3 {
-  background-color: #3DCF56;
-  width: fit-content;
-  font-size: 70px;
-  background-color: #FFD5D2;
-  margin-top: 50px;
-  border-radius: 20px;
-  color: white;
-  padding: 10px;
-}
-
 .destinations, .travelers {
   border: 5px solid #FFD5D2;
   background-color: white;
@@ -546,10 +541,6 @@ a.logo {
   margin: 20px;
   font-size: 30px;
   align-items: center;
-}
-
-.choices {
-
 }
 
 .adult, .child {
@@ -658,6 +649,7 @@ a.logo {
 
 .today {
   background-color: #FFE3E0;
+  cursor: pointer;
 }
 
 .startContainer {
@@ -782,6 +774,7 @@ a.logo {
   padding: 20px;
   border-radius: 20px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .deleteTrip {
@@ -791,6 +784,7 @@ a.logo {
   padding: 20px;
   border-radius: 20px;
   margin: 10px;
+  cursor: pointer;
 }
 
 .deleteContent {
@@ -835,6 +829,7 @@ a.logo {
   border-radius: 20px;
   margin: 10px;
   width: 100px;
+  cursor: pointer;
 }
 
 .getEvent {
@@ -995,7 +990,8 @@ a.logo {
   background-color: #FFC7C2;
   padding: 20px 20px 20px 20px;
   display: inline-block;
-  font-size: 37px;
+  font-size: 50px;
+  margin-top: 20px;
 
   border-style: solid;
   border-width: 0px;
