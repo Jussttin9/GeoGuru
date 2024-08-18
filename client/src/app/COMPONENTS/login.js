@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { reload, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function LoginInfo() {
     
@@ -61,6 +61,9 @@ export default function LoginInfo() {
       if ((useEmail.length > 0) && (usePass.length > 0)) {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
+          await reload(userCredential.user);
+          console.log(userCredential.user);
+          console.log(userCredential.user.emailVerified);
           if (userCredential.user.emailVerified) {
             const userID = userCredential.user.uid;
             routeToStart(userID);
