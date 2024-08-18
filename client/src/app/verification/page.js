@@ -4,10 +4,31 @@ import styles from './../page.module.css';
 import Image from 'next/image';
 import Marquee from 'react-fast-marquee';
 import { motion as m } from 'framer-motion';
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { applyActionCode } from "firebase/auth";
 import { auth } from '../firebase';
+import { useEffect, useState } from 'react';
 
-export default function Verification() {
+
+
+export default function Verification({ params }) {
+  const mode = params.mode;
+  const oob = params.oobCode;
+  const [message, setMessage] = useState('Your email has been verified. Please return to the home page and log in.')
+  
+  useEffect(() => {
+    if (mode === 'verifyEmail' && oob) {
+      verifyEmail(oob);
+    }
+  }, []);
+
+  const verifyEmail = async (code) => {
+    try {
+      await applyActionCode(auth, code);
+    } catch (error) {
+      setMessage('Your email has not been verified please try again later.');
+    }
+  }
+
   return (
     <>
       <m.div className={styles.registerPanel}
@@ -44,7 +65,7 @@ export default function Verification() {
             priority
           />
           <div className={styles.registerOvertext}>
-            <h2>Your email has been verified. Please return to the home page and log in.</h2>
+            <h2>{message}</h2>
           </div>
         </m.div>
         </div>
