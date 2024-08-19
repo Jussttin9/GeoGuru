@@ -1275,6 +1275,7 @@ a.logo {
   .createTrip {
     display: flex;
     flex-direction: column;
+    gap: 2rem;
   }
   .headerWrapper {
     width: 90vw;
@@ -1292,5 +1293,11 @@ a.logo {
     margin-top: 10px;
     flex-direction: column;
     gap: 1rem;
+  }
+  .leftCol {
+    background-color: blue;
+  }
+  .rightCol {
+    background-color: green;
   }
 }
