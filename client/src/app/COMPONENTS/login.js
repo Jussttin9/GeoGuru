@@ -75,8 +75,7 @@ export default function LoginInfo() {
           if(error.code === 'auth/invalid-email') {
             setError('Invalid Email');
           } else {
-            // setError('Email or password is incorrect');
-            setError(error.message)
+            setError('Email or password is incorrect');
           }
         }
       } else {
