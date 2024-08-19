@@ -53,6 +53,9 @@ export default function TripPlanner({ params }) {
 
       let travelInfo = {start: startDate, end: endDate, adults: numAdults, children: numChildren};
       window.sessionStorage.setItem('travelInfo', JSON.stringify(travelInfo));
+      const country = JSON.parse(window.sessionStorage.getItem('destination'));
+      const states = JSON.parse(window.sessionStorage.getItem('states'));
+      const destinationList = country.concat(states);
 
       await axios.post(`${process.env.NEXT_PUBLIC_DEPLOY_URL}/trip/add-trip`, {
         userID: uid,
@@ -61,7 +64,7 @@ export default function TripPlanner({ params }) {
         tripID: uid,
         adults: numAdults,
         children: numChildren,
-        destination: JSON.parse(window.sessionStorage.getItem('destination')),
+        destination: destinationList,
         itinerary: []
       });
 

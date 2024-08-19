@@ -6,9 +6,20 @@ import axios from 'axios';
 import { motion as m } from "framer-motion";
 
 export default function ItineraryPage({ start, end, adults, child, destination, selectedEvents, uid, tripID, load }) {
-    const serializedLocations = destination.join('/');
     const [selectedList, updateSelectedList] = useState([]);
     const [deletePopup, setDeletePopup] = useState(false);
+    const [destinations, setDestinations] = useState([]);
+    const serializedLocations = destination.filter(location => location !== 'United States').join('/');
+
+    const states = new Set([
+        'Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 
+        'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 
+        'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 
+        'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 
+        'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 
+        'West Virginia', 'Wisconsin', 'Wyoming'
+    ]);
+    
 
     const deleteTrip = async () => {
         try {
@@ -51,9 +62,14 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
         updateSelectedList(selectedEvents)
     }, [selectedEvents])
 
+    useEffect(() => {
+        const destinationList = destination.filter(location => !states.has(location));
+        setDestinations(destinationList);
+    }, [destination])
+
     return (
         <div className={styles.info}>
-            <div className={styles.tripName}>Trip to {destination.join(', ')}</div>
+            <div className={styles.tripName}>Trip to {destinations.join(', ')}</div>
             <div className={styles.tripInfo}>
                 <p>Start Date: {start}</p>
                 <p>End Date: {end}</p>

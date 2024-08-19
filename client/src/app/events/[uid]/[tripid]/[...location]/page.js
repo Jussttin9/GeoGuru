@@ -56,8 +56,14 @@ export default function Events({ params }) {
     };
 
     const displaySelectedEvents = () => {
+        const eventList = []
+        for (const arr of eventValues) {
+            if(arr.length !== 0) {
+                eventList.push(arr.join(', '))
+            }
+        }
         return (
-          <div>{eventValues.join(', ')}</div>
+          <div className={styles.selectedEvents}><h2>Selected Events: </h2>{eventList.join(', ')}</div>
         );
     };
 
@@ -77,7 +83,6 @@ export default function Events({ params }) {
     return (
         <div className={styles.getEvent}>
             <h1 className={styles.eventsTitle}>Select Your Events:</h1>
-            My Locations: {locations.join(', ')}
             <div className={styles.listEvents}>
                 {locations.map(locate => (
                     <EventCard key={locate} location={locate} setSelectedEvents={setEvents}/>

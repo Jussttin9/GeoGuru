@@ -63,7 +63,7 @@ export default function Itinerary({ params }) {
     return (
       <>
         {trips.map((trip, index) => (
-          <button key={trip._id} className={styles.tripCard} onClick={() => setTripIndex(index)}>
+          <button key={trip._id} className={`${tripIndex === index ? styles.tripCardSelected : styles.tripCard}`} onClick={() => setTripIndex(index)}>
             <div>Trip {index+1}</div>
             <div>&rsaquo;</div>
           </button>
@@ -81,9 +81,6 @@ export default function Itinerary({ params }) {
       )
     }
     const trip = trips[index]
-    console.log(trips);
-    console.log(trip);
-    console.log(index);
     const itinerary = trip.itinerary.map((item) => item.title);
     return (
       <ItineraryPage
