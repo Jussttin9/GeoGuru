@@ -27,7 +27,7 @@ export default function Navbar() {
         setUid(localStorage.getItem('uid'));
     }, [])
 
-    if (pathname === '/' || pathname === '/register') {
+    if (pathname === '/' || pathname === '/register' || pathname === '/account-recovery') {
         return (
             <div className={styles.navbar}>
                 <Link className={styles.logo} href={"/"}>
