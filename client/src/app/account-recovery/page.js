@@ -42,7 +42,7 @@ export default function Recovery() {
       } finally {
         if ((submitbutton != null)) {
           animate(submitbutton, { backgroundColor: "#86EF98" }, {duration: 0.5})
-          animate(submissionmsg, { opacity: 1, y: "625%" }, {duration: 0.5} )
+          animate(submissionmsg, { opacity: 1, y: "300%" }, {duration: 0.5} )
           setTimeout(fademessage, 7500);
         }
       }

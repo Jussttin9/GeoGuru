@@ -255,7 +255,7 @@ export default function DestinationComponent() {
     
 
     const customStyle = {
-        control: (styles) => ({ ...styles, borderRadius: '10px', backgroundColor: '#FFF5F4', color: 'black', width: '300px', height: '70px', overflow: 'scroll'})
+        control: (styles) => ({ ...styles, borderRadius: '10px', backgroundColor: '#FFF5F4', color: 'black', minWidth: '200px', maxWidth: '300px', height: '70px', overflow: 'scroll'})
     }
 
     const [selectedOptions, setSelectedOptions] = useState([]);

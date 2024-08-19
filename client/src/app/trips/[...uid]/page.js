@@ -256,9 +256,9 @@ export default function TripPlanner({ params }) {
   };
   
   return (
-    <m.div className={styles.itinerary}
+    <m.div className={styles.createTrip}
       initial={{opacity: 0, height: 0}}
-      animate={{opacity: 1, height: "100vh"}}
+      animate={{opacity: 1, minHeight: "100vh", height: "fit-content"}}
       transition={{ duration: 0.75, ease: 'easeOut' }}
       exit={{ opacity: 1 }}
     >

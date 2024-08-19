@@ -84,7 +84,7 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
                 <button className={styles.deleteTrip} onClick={() => setDeletePopup(!deletePopup)}>Delete Trip</button>
             </div>
             {deletePopup && (
-                <div>
+                <div className={styles.background}>
                     <m.div onClick={() => setDeletePopup(!deletePopup)} className={styles.deleteShadow}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -103,6 +103,7 @@ export default function ItineraryPage({ start, end, adults, child, destination, 
                             <button className={styles.deleteButton} onClick={() => setDeletePopup(!deletePopup)}>No</button>
                         </div>
                     </m.div>
+                    boo
                 </div>
             )}
         </div>
