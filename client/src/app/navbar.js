@@ -25,7 +25,7 @@ export default function Navbar() {
 
     useEffect(() => {
         setUid(localStorage.getItem('uid'));
-    }, [])
+    })
 
     if (pathname === '/' || pathname === '/register' || pathname === '/account-recovery') {
         return (

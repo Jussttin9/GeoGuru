@@ -62,8 +62,6 @@ export default function LoginInfo() {
         try {
           const userCredential = await signInWithEmailAndPassword(auth, useEmail, usePass);
           await reload(userCredential.user);
-          console.log(userCredential.user);
-          console.log(userCredential.user.emailVerified);
           if (userCredential.user.emailVerified) {
             const userID = userCredential.user.uid;
             routeToStart(userID);
